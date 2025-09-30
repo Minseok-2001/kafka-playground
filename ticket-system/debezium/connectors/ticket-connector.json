@@ -1,0 +1,17 @@
+{
+  "name": "ticket-mysql-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "1",
+    "database.hostname": "ticket-db",
+    "database.port": "3306",
+    "database.user": "ticket",
+    "database.password": "ticket",
+    "database.server.id": "5401",
+    "database.include.list": "ticket",
+    "table.include.list": "ticket.ticket_reservations",
+    "topic.prefix": "ticket-cdc",
+    "include.schema.changes": "false",
+    "snapshot.mode": "initial"
+  }
+}

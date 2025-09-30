@@ -1,0 +1,17 @@
+{
+  "name": "payment-mysql-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "1",
+    "database.hostname": "payment-db",
+    "database.port": "3306",
+    "database.user": "payment",
+    "database.password": "payment",
+    "database.server.id": "5402",
+    "database.include.list": "payment",
+    "table.include.list": "payment.payment_transactions",
+    "topic.prefix": "payment-cdc",
+    "include.schema.changes": "false",
+    "snapshot.mode": "initial"
+  }
+}

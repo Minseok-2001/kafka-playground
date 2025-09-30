@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ticket-service
+  datasource:
+    url: ${TICKET_DB_URL:jdbc:mysql://ticket-db:3306/ticket?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${TICKET_DB_USERNAME:ticket}
+    password: ${TICKET_DB_PASSWORD:ticket}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    consumer:
+      group-id: ticket-service
+    producer:
+      client-id: ticket-service
+
+logging:
+  level:
+    org.hibernate.SQL: debug

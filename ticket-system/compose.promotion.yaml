@@ -1,0 +1,50 @@
+services:
+  promotion-db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: promotion
+      MYSQL_USER: promotion
+      MYSQL_PASSWORD: promotion
+    ports:
+      - "3310:3306"
+    volumes:
+      - promotion-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+  promotion-service:
+    build:
+      context: .
+      dockerfile: promotion-service/Dockerfile
+    environment:
+      PROMOTION_DB_URL: jdbc:mysql://promotion-db:3306/promotion?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      PROMOTION_DB_USERNAME: promotion
+      PROMOTION_DB_PASSWORD: promotion
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TSID_NODE_ID: "4"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      promotion-db:
+        condition: service_healthy
+    ports:
+      - "8086:8086"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - core
+
+volumes:
+  promotion-mysql-data:

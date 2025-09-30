@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: implement TSID-based ID generation for BaseEntity and DomainEvent">
+    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add notification service with Kafka integration and coupon policy management">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/api-gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/api-gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/KafkaTopics.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/KafkaTopics.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +45,7 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="kafka-playground" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
+                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -69,16 +70,16 @@
     &quot;assignee&quot;: &quot;Minseok-2001&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Minseok-2001/kafka-playground.git",
-    "accountId": "c505766e-0025-4256-b14f-6048da18a741"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Minseok-2001/kafka-playground.git&quot;,
+    &quot;accountId&quot;: &quot;c505766e-0025-4256-b14f-6048da18a741&quot;
   }
-}]]></component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -95,6 +96,8 @@
   "keyToString": {
     "Docker.ticket-system/compose.yaml: Compose Deployment.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
+    "Gradle.ticket-system [clean].executor": "Run",
+    "Gradle.ticket-system [test].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -106,6 +109,7 @@
     "Spring Boot.PaymentServiceApplication.executor": "Run",
     "Spring Boot.QueueServiceApplication.executor": "Run",
     "Spring Boot.TicketServiceApplication.executor": "Run",
+    "android.gradle.sync.needed": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system",
@@ -137,7 +141,51 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Docker.ticket-system/compose.yaml: Compose Deployment">
+  <component name="RunManager" selected="Gradle.ticket-system [test]">
+    <configuration name="ticket-system [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ticket-system" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ticket-system [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ticket-system" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="ticket-system-be" />
       <method v="2">
@@ -178,14 +226,16 @@
       </method>
     </configuration>
     <configuration name="TicketServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.ticket-service.main" />
+      <module name="ticket-service.kafka-playground.ticket-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.ticket.TicketServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml" />
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="ticket-system/compose.yaml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
@@ -198,6 +248,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ticket-system [test]" />
+        <item itemvalue="Gradle.ticket-system [clean]" />
         <item itemvalue="Docker.ticket-system/compose.yaml: Compose Deployment" />
       </list>
     </recent_temporary>
@@ -218,7 +270,8 @@
       <option name="presentableId" value="Default" />
       <updated>1759168936464</updated>
       <workItem from="1759168937454" duration="1121000" />
-      <workItem from="1759214465122" duration="6686000" />
+      <workItem from="1759214465122" duration="8030000" />
+      <workItem from="1759229917964" duration="4629000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers">
       <option name="closed" value="true" />
@@ -316,7 +369,55 @@
       <option name="project" value="LOCAL" />
       <updated>1759223816009</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="feat: add unit tests for PaymentService and TicketReservationService with MockK">
+      <option name="closed" value="true" />
+      <created>1759228540048</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1759228540048</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: update MockK dependencies and refactor tests to use BDD style">
+      <option name="closed" value="true" />
+      <created>1759233470941</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1759233470941</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: update Spring Cloud Gateway dependency to use server-webflux variant">
+      <option name="closed" value="true" />
+      <created>1759233729904</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1759233729904</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: refactor application.yaml to configure Spring Cloud Gateway with webflux server">
+      <option name="closed" value="true" />
+      <created>1759234901303</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1759234901303</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: implement PaymentTransactionEvent handling and consumer for ticket reservations">
+      <option name="closed" value="true" />
+      <created>1759244519765</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1759244519765</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: add notification service with Kafka integration and coupon policy management">
+      <option name="closed" value="true" />
+      <created>1759250036800</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1759250036800</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -335,6 +436,12 @@
     <MESSAGE value="feat: add payment and ticket reservation request/response models and mappers" />
     <MESSAGE value="feat: update Docker Compose configurations and refactor database table names for payment and ticket reservations" />
     <MESSAGE value="feat: implement TSID-based ID generation for BaseEntity and DomainEvent" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: implement TSID-based ID generation for BaseEntity and DomainEvent" />
+    <MESSAGE value="feat: add unit tests for PaymentService and TicketReservationService with MockK" />
+    <MESSAGE value="feat: update MockK dependencies and refactor tests to use BDD style" />
+    <MESSAGE value="feat: update Spring Cloud Gateway dependency to use server-webflux variant" />
+    <MESSAGE value="feat: refactor application.yaml to configure Spring Cloud Gateway with webflux server" />
+    <MESSAGE value="feat: implement PaymentTransactionEvent handling and consumer for ticket reservations" />
+    <MESSAGE value="feat: add notification service with Kafka integration and coupon policy management" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add notification service with Kafka integration and coupon policy management" />
   </component>
 </project>

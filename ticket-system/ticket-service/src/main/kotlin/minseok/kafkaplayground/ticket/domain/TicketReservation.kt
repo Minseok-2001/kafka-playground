@@ -8,7 +8,7 @@ import jakarta.persistence.Table
 import minseok.kafkaplayground.common.BaseEntity
 
 @Entity
-@Table(name = "ticket_reservations")
+@Table(name = "ticket_reservation")
 class TicketReservation(
     @Column(name = "member_id", nullable = false)
     var memberId: Long,

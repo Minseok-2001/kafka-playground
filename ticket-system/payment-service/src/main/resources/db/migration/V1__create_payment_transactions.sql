@@ -8,4 +8,4 @@ CREATE TABLE payment_transaction (
     deleted_at TIMESTAMP(6) NULL
 );
 
-CREATE INDEX idx_payment_transactions_reservation ON payment_transaction (reservation_id);
+CREATE INDEX idx_payment_transaction_reservation ON payment_transaction (reservation_id);

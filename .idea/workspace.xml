@@ -4,35 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools">
-      <change afterPath="$PROJECT_DIR$/ticket-system/api-gateway/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.debezium.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.gateway.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.load.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.observability.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.payment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.queue.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/compose.ticket.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/payment-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/queue-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/ticket-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add payment and ticket reservation request/response models and mappers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/common/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.debezium.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.debezium.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.gateway.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.gateway.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.observability.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.observability.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.payment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.payment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.queue.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.queue.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.ticket.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.ticket.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ticket-system/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/observability/prometheus/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/observability/prometheus/prometheus.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/KafkaPlaygroundApplication.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/common/BaseEntity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/member/MemberEntity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/test/kotlin/minseok/kafkaplayground/KafkaPlaygroundApplicationTests.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/test/kotlin/minseok/kafkaplayground/TestKafkaPlaygroundApplication.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/src/test/kotlin/minseok/kafkaplayground/TestcontainersConfiguration.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/adapter/TicketReservationController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/adapter/TicketReservationController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/domain/PaymentTransaction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/domain/PaymentTransaction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/main/resources/db/migration/V1__create_payment_transactions.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/main/resources/db/migration/V1__create_payment_transactions.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/queue-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/queue-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/domain/TicketReservation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/domain/TicketReservation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/resources/db/migration/V1__create_ticket_reservations.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/resources/db/migration/V1__create_ticket_reservations.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,9 +90,18 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.ticket-system/compose.yaml: Compose Deployment.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.ApiGatewayApplication.executor": "Run",
+    "Spring Boot.PaymentServiceApplication.executor": "Run",
+    "Spring Boot.QueueServiceApplication.executor": "Run",
+    "Spring Boot.TicketServiceApplication.executor": "Run",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system",
@@ -138,7 +133,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.KafkaPlaygroundApplication">
+  <component name="RunManager" selected="Docker.ticket-system/compose.yaml: Compose Deployment">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="ticket-system-be" />
       <method v="2">
@@ -185,6 +180,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ticket-system/compose.yaml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="ticket-system/compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.ticket-system/compose.yaml: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -202,7 +214,7 @@
       <option name="presentableId" value="Default" />
       <updated>1759168936464</updated>
       <workItem from="1759168937454" duration="1121000" />
-      <workItem from="1759214465122" duration="1888000" />
+      <workItem from="1759214465122" duration="4295000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers">
       <option name="closed" value="true" />
@@ -244,7 +256,47 @@
       <option name="project" value="LOCAL" />
       <updated>1759216746390</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: implement payment service with controller, service, and event handling">
+      <option name="closed" value="true" />
+      <created>1759216780567</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216780567</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: create payment_transaction table with necessary fields and index">
+      <option name="closed" value="true" />
+      <created>1759216814895</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216814895</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: update application configuration and dependencies for observability and validation">
+      <option name="closed" value="true" />
+      <created>1759216833898</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216833898</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: refactor payment and ticket reservation components for improved structure and clarity">
+      <option name="closed" value="true" />
+      <created>1759217525556</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1759217525556</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: add payment and ticket reservation request/response models and mappers">
+      <option name="closed" value="true" />
+      <created>1759217535546</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1759217535546</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,6 +308,11 @@
     <MESSAGE value="feat: implement ticket reservation system with JPA entities, service, and controller" />
     <MESSAGE value="feat: configure application properties for API gateway, payment service, and queue service" />
     <MESSAGE value="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools" />
+    <MESSAGE value="feat: implement payment service with controller, service, and event handling" />
+    <MESSAGE value="feat: create payment_transaction table with necessary fields and index" />
+    <MESSAGE value="feat: update application configuration and dependencies for observability and validation" />
+    <MESSAGE value="feat: refactor payment and ticket reservation components for improved structure and clarity" />
+    <MESSAGE value="feat: add payment and ticket reservation request/response models and mappers" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add payment and ticket reservation request/response models and mappers" />
   </component>
 </project>

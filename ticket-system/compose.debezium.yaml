@@ -16,7 +16,7 @@ services:
       - ./debezium/connectors:/kafka/connectors
     depends_on:
       kafka:
-        condition: service_started
+        condition: service_healthy
     networks:
       - core
 
@@ -29,11 +29,6 @@ services:
       - "8086:8080"
     depends_on:
       debezium-connect:
-        condition: service_started
+        condition: service_healthy
     networks:
       - core
-
-networks:
-  core:
-    external: true
-    name: ticket-system_core

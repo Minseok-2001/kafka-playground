@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import minseok.kafkaplayground.common.BaseEntity
 
 @Entity
-@Table(name = "payment_transactions")
+@Table(name = "payment_transaction")
 class PaymentTransaction(
     @Column(name = "reservation_id", nullable = false)
     val reservationId: Long,

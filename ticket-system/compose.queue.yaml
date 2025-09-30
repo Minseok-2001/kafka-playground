@@ -5,9 +5,10 @@ services:
       dockerfile: queue-service/Dockerfile
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TSID_NODE_ID: "2"
     depends_on:
       kafka:
-        condition: service_started
+        condition: service_healthy
       ticket-service:
         condition: service_healthy
       payment-service:
@@ -22,8 +23,3 @@ services:
       start_period: 30s
     networks:
       - core
-
-networks:
-  core:
-    external: true
-    name: ticket-system_core

@@ -1,4 +1,4 @@
-CREATE TABLE ticket_reservations (
+CREATE TABLE ticket_reservation (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     member_id BIGINT NOT NULL,
     seat_number VARCHAR(50) NOT NULL,
@@ -8,4 +8,4 @@ CREATE TABLE ticket_reservations (
     deleted_at TIMESTAMP(6) NULL
 );
 
-CREATE INDEX idx_ticket_reservations_member ON ticket_reservations (member_id);
+CREATE INDEX idx_ticket_reservation_member ON ticket_reservation (member_id);

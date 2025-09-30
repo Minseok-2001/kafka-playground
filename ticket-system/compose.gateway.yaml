@@ -7,9 +7,10 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       TICKET_SERVICE_URI: http://ticket-service:8081
       PAYMENT_SERVICE_URI: http://payment-service:8082
+      TSID_NODE_ID: "3"
     depends_on:
       kafka:
-        condition: service_started
+        condition: service_healthy
       ticket-service:
         condition: service_healthy
       payment-service:
@@ -24,8 +25,3 @@ services:
       start_period: 30s
     networks:
       - core
-
-networks:
-  core:
-    external: true
-    name: ticket-system_core

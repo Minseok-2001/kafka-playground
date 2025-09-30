@@ -1,0 +1,50 @@
+services:
+  member-db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: member
+      MYSQL_USER: member
+      MYSQL_PASSWORD: member
+    ports:
+      - "3309:3306"
+    volumes:
+      - member-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+  member-service:
+    build:
+      context: .
+      dockerfile: member-service/Dockerfile
+    environment:
+      MEMBER_DB_URL: jdbc:mysql://member-db:3306/member?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      MEMBER_DB_USERNAME: member
+      MEMBER_DB_PASSWORD: member
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TSID_NODE_ID: "3"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      member-db:
+        condition: service_healthy
+    ports:
+      - "8084:8084"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - core
+
+volumes:
+  member-mysql-data:

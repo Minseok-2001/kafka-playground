@@ -6,15 +6,17 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      routes:
-        - id: ticket-service
-          uri: ${TICKET_SERVICE_URI:http://ticket-service:8081}
-          predicates:
-            - Path=/api/tickets/**
-        - id: payment-service
-          uri: ${PAYMENT_SERVICE_URI:http://payment-service:8082}
-          predicates:
-            - Path=/api/payments/**
+      server:
+        webflux:
+          routes:
+            - id: ticket-service
+              uri: ${TICKET_SERVICE_URI:http://ticket-service:8081}
+              predicates:
+                - Path=/api/tickets/**
+            - id: payment-service
+              uri: ${PAYMENT_SERVICE_URI:http://payment-service:8082}
+              predicates:
+                - Path=/api/payments/**
 
 management:
   endpoint:

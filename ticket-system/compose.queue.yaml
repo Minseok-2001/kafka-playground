@@ -1,0 +1,29 @@
+services:
+  queue-service:
+    build:
+      context: .
+      dockerfile: queue-service/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      kafka:
+        condition: service_started
+      ticket-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
+    ports:
+      - "8083:8083"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+networks:
+  core:
+    external: true
+    name: ticket-system_core

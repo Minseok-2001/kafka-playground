@@ -1,0 +1,31 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TICKET_SERVICE_URI: http://ticket-service:8081
+      PAYMENT_SERVICE_URI: http://payment-service:8082
+    depends_on:
+      kafka:
+        condition: service_started
+      ticket-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+networks:
+  core:
+    external: true
+    name: ticket-system_core

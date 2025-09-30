@@ -1,0 +1,39 @@
+services:
+  debezium-connect:
+    image: quay.io/debezium/connect:2.7
+    restart: unless-stopped
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: ticket-system
+      CONFIG_STORAGE_TOPIC: connect-configs
+      OFFSET_STORAGE_TOPIC: connect-offsets
+      STATUS_STORAGE_TOPIC: connect-status
+      KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+    ports:
+      - "8084:8083"
+    volumes:
+      - ./debezium/connectors:/kafka/connectors
+    depends_on:
+      kafka:
+        condition: service_started
+    networks:
+      - core
+
+  debezium-ui:
+    image: quay.io/debezium/debezium-ui:2.7
+    restart: unless-stopped
+    environment:
+      KAFKA_CONNECT_URIS: http://debezium-connect:8083
+    ports:
+      - "8086:8080"
+    depends_on:
+      debezium-connect:
+        condition: service_started
+    networks:
+      - core
+
+networks:
+  core:
+    external: true
+    name: ticket-system_core

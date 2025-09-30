@@ -1,0 +1,58 @@
+services:
+  payment-db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: payment
+      MYSQL_USER: payment
+      MYSQL_PASSWORD: payment
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3308:3306"
+    volumes:
+      - payment-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: payment-service/Dockerfile
+    environment:
+      PAYMENT_DB_URL: jdbc:mysql://payment-db:3306/payment?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      PAYMENT_DB_USERNAME: payment
+      PAYMENT_DB_PASSWORD: payment
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      kafka:
+        condition: service_started
+      payment-db:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - core
+
+volumes:
+  payment-mysql-data:
+
+networks:
+  core:
+    external: true
+    name: ticket-system_core

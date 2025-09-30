@@ -1,0 +1,58 @@
+services:
+  ticket-db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ticket
+      MYSQL_USER: ticket
+      MYSQL_PASSWORD: ticket
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3307:3306"
+    volumes:
+      - ticket-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+  ticket-service:
+    build:
+      context: .
+      dockerfile: ticket-service/Dockerfile
+    environment:
+      TICKET_DB_URL: jdbc:mysql://ticket-db:3306/ticket?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      TICKET_DB_USERNAME: ticket
+      TICKET_DB_PASSWORD: ticket
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      kafka:
+        condition: service_started
+      ticket-db:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - core
+
+volumes:
+  ticket-mysql-data:
+
+networks:
+  core:
+    external: true
+    name: ticket-system_core

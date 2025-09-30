@@ -1,0 +1,58 @@
+services:
+  kafka-exporter:
+    image: bitnami/kafka-exporter:latest
+    restart: unless-stopped
+    environment:
+      KAFKA_EXPORTER_KAFKA_SERVER: kafka:9092
+    depends_on:
+      kafka:
+        condition: service_started
+    networks:
+      - core
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:v2.55.0
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      kafka-exporter:
+        condition: service_started
+    ports:
+      - "9090:9090"
+    networks:
+      - core
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      prometheus:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+
+volumes:
+  grafana-data:
+
+networks:
+  core:
+    external: true
+    name: ticket-system_core
+  monitoring:
+    driver: bridge

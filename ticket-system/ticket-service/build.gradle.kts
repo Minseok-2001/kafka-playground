@@ -23,5 +23,6 @@ dependencies {
     testImplementation("org.testcontainers:mysql")
     testImplementation("org.testcontainers:kafka")
     testImplementation("com.h2database:h2")
-    testImplementation("io.mockk:mockk:1.13.12")
+    testImplementation("io.mockk:mockk:1.14.5")
+    testImplementation("io.mockk:mockk-bdd:1.14.5")
 }

@@ -1,11 +1,11 @@
 package minseok.kafkaplayground.payment.application
 
 import io.mockk.Runs
-import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.verify
+import io.mockk.bdd.given
+import io.mockk.bdd.then
 import java.math.BigDecimal
 import java.util.Optional
 import minseok.kafkaplayground.common.BaseEntity
@@ -32,47 +32,47 @@ class PaymentServiceTest {
         ).withId(9001L)
 
         val savedSlot = slot<PaymentTransaction>()
-        every { paymentTransactionRepository.save(capture(savedSlot)) } returns persistedTransaction
-        every { paymentEventPublisher.publish(persistedTransaction) } just Runs
+        given { paymentTransactionRepository.save(capture(savedSlot)) } answers { persistedTransaction }
+        given { paymentEventPublisher.publish(persistedTransaction) } just Runs
 
         val result = paymentService.requestPayment(command)
 
         assertThat(result).isSameAs(persistedTransaction)
         assertThat(savedSlot.captured.reservationId).isEqualTo(command.reservationId)
         assertThat(savedSlot.captured.amount).isEqualByComparingTo(command.amount)
-        verify(exactly = 1) { paymentTransactionRepository.save(any()) }
-        verify(exactly = 1) { paymentEventPublisher.publish(persistedTransaction) }
+        then(exactly = 1) { paymentTransactionRepository.save(any()) }
+        then(exactly = 1) { paymentEventPublisher.publish(persistedTransaction) }
     }
 
     @Test
     fun `markApproved should set status to approved and publish`() {
         val transactionId = 7L
         val transaction = sampleTransaction().withId(transactionId)
-        every { paymentTransactionRepository.findById(transactionId) } returns Optional.of(transaction)
-        every { paymentEventPublisher.publish(transaction) } just Runs
+        given { paymentTransactionRepository.findById(transactionId) } answers { Optional.of(transaction) }
+        given { paymentEventPublisher.publish(transaction) } just Runs
 
         paymentService.markApproved(transactionId)
 
         assertThat(transaction.status).isEqualTo(PaymentStatus.APPROVED)
-        verify(exactly = 1) { paymentEventPublisher.publish(transaction) }
+        then(exactly = 1) { paymentEventPublisher.publish(transaction) }
     }
 
     @Test
     fun `markCompensated should set status to compensated and publish`() {
         val transactionId = 8L
         val transaction = sampleTransaction().withId(transactionId)
-        every { paymentTransactionRepository.findById(transactionId) } returns Optional.of(transaction)
-        every { paymentEventPublisher.publish(transaction) } just Runs
+        given { paymentTransactionRepository.findById(transactionId) } answers { Optional.of(transaction) }
+        given { paymentEventPublisher.publish(transaction) } just Runs
 
         paymentService.markCompensated(transactionId)
 
         assertThat(transaction.status).isEqualTo(PaymentStatus.COMPENSATED)
-        verify(exactly = 1) { paymentEventPublisher.publish(transaction) }
+        then(exactly = 1) { paymentEventPublisher.publish(transaction) }
     }
 
     @Test
     fun `markApproved should throw when transaction not found`() {
-        every { paymentTransactionRepository.findById(any()) } returns Optional.empty()
+        given { paymentTransactionRepository.findById(any()) } answers { Optional.empty<PaymentTransaction>() }
 
         assertThatThrownBy { paymentService.markApproved(999L) }
             .isInstanceOf(IllegalArgumentException::class.java)

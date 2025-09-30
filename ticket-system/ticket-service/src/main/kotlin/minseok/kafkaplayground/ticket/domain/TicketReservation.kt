@@ -30,10 +30,3 @@ class TicketReservation(
         status = ReservationStatus.CANCELLED
     }
 }
-
-enum class ReservationStatus {
-    PENDING,
-    CONFIRMED,
-    COMPENSATED,
-    CANCELLED,
-}

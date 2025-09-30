@@ -1,6 +1,6 @@
 package minseok.kafkaplayground.payment.application
 
-import java.math.BigDecimal
+import minseok.kafkaplayground.payment.application.command.RequestPaymentCommand
 import minseok.kafkaplayground.payment.domain.PaymentTransaction
 import minseok.kafkaplayground.payment.domain.PaymentTransactionRepository
 import org.springframework.stereotype.Service
@@ -40,8 +40,3 @@ class PaymentService(
 
     fun findAll(): List<PaymentTransaction> = paymentTransactionRepository.findAll()
 }
-
-data class RequestPaymentCommand(
-    val reservationId: Long,
-    val amount: BigDecimal,
-)

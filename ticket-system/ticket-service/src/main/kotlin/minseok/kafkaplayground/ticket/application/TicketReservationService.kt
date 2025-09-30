@@ -1,5 +1,6 @@
 package minseok.kafkaplayground.ticket.application
 
+import minseok.kafkaplayground.ticket.application.command.ReserveTicketCommand
 import minseok.kafkaplayground.ticket.domain.TicketReservation
 import minseok.kafkaplayground.ticket.domain.TicketReservationRepository
 import org.springframework.stereotype.Service
@@ -25,8 +26,3 @@ class TicketReservationService(
         return ticketReservationRepository.findByMemberId(memberId)
     }
 }
-
-data class ReserveTicketCommand(
-    val memberId: Long,
-    val seatNumber: String,
-)

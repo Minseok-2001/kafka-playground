@@ -2,6 +2,7 @@ package minseok.kafkaplayground.ticket.application
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import minseok.kafkaplayground.common.support.KafkaTopics
+import minseok.kafkaplayground.ticket.application.event.TicketReservationMessage
 import minseok.kafkaplayground.ticket.domain.TicketReservation
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
@@ -22,10 +23,3 @@ class TicketReservationPublisher(
         kafkaTemplate.send(KafkaTopics.TICKET_RESERVATION, reservation.id.toString(), payload)
     }
 }
-
-data class TicketReservationMessage(
-    val reservationId: Long,
-    val memberId: Long,
-    val seatNumber: String,
-    val status: String,
-)

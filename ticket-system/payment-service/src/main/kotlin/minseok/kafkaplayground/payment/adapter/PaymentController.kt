@@ -1,12 +1,11 @@
 package minseok.kafkaplayground.payment.adapter
 
 import jakarta.validation.Valid
-import jakarta.validation.constraints.DecimalMin
-import jakarta.validation.constraints.NotNull
-import java.math.BigDecimal
+import minseok.kafkaplayground.payment.adapter.request.PaymentRequest
+import minseok.kafkaplayground.payment.adapter.response.PaymentResponse
+import minseok.kafkaplayground.payment.adapter.response.toResponse
 import minseok.kafkaplayground.payment.application.PaymentService
-import minseok.kafkaplayground.payment.application.RequestPaymentCommand
-import minseok.kafkaplayground.payment.domain.PaymentTransaction
+import minseok.kafkaplayground.payment.application.command.RequestPaymentCommand
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -44,24 +43,3 @@ class PaymentController(
     @GetMapping
     fun list(): List<PaymentResponse> = paymentService.findAll().map { it.toResponse() }
 }
-
-data class PaymentRequest(
-    @field:NotNull
-    val reservationId: Long,
-    @field:DecimalMin("0.0", inclusive = false)
-    val amount: BigDecimal,
-)
-
-data class PaymentResponse(
-    val id: Long,
-    val reservationId: Long,
-    val amount: BigDecimal,
-    val status: String,
-)
-
-private fun PaymentTransaction.toResponse(): PaymentResponse = PaymentResponse(
-    id = id,
-    reservationId = reservationId,
-    amount = amount,
-    status = status.name,
-)

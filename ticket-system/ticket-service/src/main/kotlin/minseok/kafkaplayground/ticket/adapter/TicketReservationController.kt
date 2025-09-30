@@ -1,11 +1,11 @@
 package minseok.kafkaplayground.ticket.adapter
 
 import jakarta.validation.Valid
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import minseok.kafkaplayground.ticket.application.ReserveTicketCommand
+import minseok.kafkaplayground.ticket.adapter.request.ReserveTicketRequest
+import minseok.kafkaplayground.ticket.adapter.response.TicketReservationResponse
+import minseok.kafkaplayground.ticket.adapter.response.toResponse
+import minseok.kafkaplayground.ticket.application.command.ReserveTicketCommand
 import minseok.kafkaplayground.ticket.application.TicketReservationService
-import minseok.kafkaplayground.ticket.domain.TicketReservation
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -39,24 +39,3 @@ class TicketReservationController(
         return ticketReservationService.findByMember(memberId).map { it.toResponse() }
     }
 }
-
-data class ReserveTicketRequest(
-    @field:NotNull
-    val memberId: Long,
-    @field:NotBlank
-    val seatNumber: String,
-)
-
-data class TicketReservationResponse(
-    val id: Long,
-    val memberId: Long,
-    val seatNumber: String,
-    val status: String,
-)
-
-private fun TicketReservation.toResponse(): TicketReservationResponse = TicketReservationResponse(
-    id = id,
-    memberId = memberId,
-    seatNumber = seatNumber,
-    status = status.name,
-)

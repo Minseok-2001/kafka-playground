@@ -2,6 +2,7 @@ package minseok.kafkaplayground.payment.application
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import minseok.kafkaplayground.common.support.KafkaTopics
+import minseok.kafkaplayground.payment.application.event.PaymentTransactionMessage
 import minseok.kafkaplayground.payment.domain.PaymentTransaction
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
@@ -21,9 +22,3 @@ class PaymentEventPublisher(
         kafkaTemplate.send(KafkaTopics.PAYMENT_TRANSACTION, transaction.id.toString(), payload)
     }
 }
-
-data class PaymentTransactionMessage(
-    val transactionId: Long,
-    val reservationId: Long,
-    val status: String,
-)

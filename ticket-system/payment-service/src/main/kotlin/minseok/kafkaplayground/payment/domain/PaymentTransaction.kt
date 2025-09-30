@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import minseok.kafkaplayground.common.BaseEntity
 
 @Entity
-@Table(name = "payment_transaction")
+@Table(name = "payment_transactions")
 class PaymentTransaction(
     @Column(name = "reservation_id", nullable = false)
     val reservationId: Long,
@@ -30,11 +30,4 @@ class PaymentTransaction(
     fun compensate() {
         status = PaymentStatus.COMPENSATED
     }
-}
-
-enum class PaymentStatus {
-    REQUESTED,
-    APPROVED,
-    REJECTED,
-    COMPENSATED,
 }

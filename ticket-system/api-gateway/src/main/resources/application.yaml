@@ -10,13 +10,29 @@ spring:
         webflux:
           routes:
             - id: ticket-service
-              uri: ${TICKET_SERVICE_URI:http://ticket-service:8081}
+              uri: http://ticket-service:8081
               predicates:
                 - Path=/api/tickets/**
             - id: payment-service
-              uri: ${PAYMENT_SERVICE_URI:http://payment-service:8082}
+              uri: http://payment-service:8082
               predicates:
                 - Path=/api/payments/**
+            - id: member-service
+              uri: http://member-service:8084
+              predicates:
+                - Path=/api/members/**
+            - id: promotion-service
+              uri: http://promotion-service:8086
+              predicates:
+                - Path=/api/promotions/**
+            - id: waiting-service
+              uri: http://waiting-service:8087
+              predicates:
+                - Path=/api/waiting/**
+            - id: notification-service
+              uri: http://notification-service:8088
+              predicates:
+                - Path=/api/notifications/**
 
 management:
   endpoint:

@@ -6,4 +6,8 @@ include(
     "ticket-service",
     "payment-service",
     "queue-service",
+    "member-service",
+    "promotion-service",
+    "waiting-service",
+    "notification-service",
 )

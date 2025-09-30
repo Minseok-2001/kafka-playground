@@ -1,0 +1,38 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: ${PAYMENT_DB_URL:jdbc:mysql://payment-db:3306/payment?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${PAYMENT_DB_USERNAME:payment}
+    password: ${PAYMENT_DB_PASSWORD:payment}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    consumer:
+      group-id: payment-service
+    producer:
+      client-id: payment-service
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

@@ -1,0 +1,69 @@
+services:
+  waiting-db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: waiting
+      MYSQL_USER: waiting
+      MYSQL_PASSWORD: waiting
+    ports:
+      - "3311:3306"
+    volumes:
+      - waiting-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core
+
+  waiting-redis:
+    image: redis:7.4
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - core
+
+  waiting-service:
+    build:
+      context: .
+      dockerfile: waiting-service/Dockerfile
+    environment:
+      WAITING_DB_URL: jdbc:mysql://waiting-db:3306/waiting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      WAITING_DB_USERNAME: waiting
+      WAITING_DB_PASSWORD: waiting
+      WAITING_REDIS_HOST: waiting-redis
+      WAITING_REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TSID_NODE_ID: "5"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      waiting-db:
+        condition: service_healthy
+      waiting-redis:
+        condition: service_healthy
+    ports:
+      - "8087:8087"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - core
+
+volumes:
+  waiting-mysql-data:

@@ -1,0 +1,37 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: 
+    username: 
+    password: 
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    bootstrap-servers: 
+    consumer:
+      group-id: notification-service
+    producer:
+      client-id: notification-service
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

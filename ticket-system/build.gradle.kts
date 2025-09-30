@@ -1,83 +1,64 @@
+import org.gradle.api.plugins.JavaPluginExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.5.6"
-    id("io.spring.dependency-management") version "1.1.7"
-    id("org.asciidoctor.jvm.convert") version "3.3.2"
-    kotlin("plugin.jpa") version "1.9.25"
+    kotlin("jvm") version "1.9.25" apply false
+    kotlin("plugin.spring") version "1.9.25" apply false
+    kotlin("plugin.jpa") version "1.9.25" apply false
+    id("org.springframework.boot") version "3.5.6" apply false
+    id("io.spring.dependency-management") version "1.1.7" apply false
+    id("org.asciidoctor.jvm.convert") version "3.3.2" apply false
 }
 
 group = "minseok"
 version = "0.0.1-SNAPSHOT"
 description = "kafka-playground"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
-extra["snippetsDir"] = file("build/generated-snippets")
+extra["springBootVersion"] = "3.5.6"
 extra["springCloudVersion"] = "2025.0.0"
 
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.apache.kafka:kafka-streams")
-    implementation("org.flywaydb:flyway-core")
-    implementation("org.flywaydb:flyway-mysql")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
-    implementation("org.springframework.kafka:spring-kafka")
-    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
-    runtimeOnly("com.mysql:mysql-connector-j")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:kafka")
-    testImplementation("org.testcontainers:mysql")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    pluginManager.withPlugin("java") {
+        extensions.configure<JavaPluginExtension> {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(21))
+            }
+        }
     }
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+    apply(plugin = "io.spring.dependency-management")
+
+    dependencies {
+        add("implementation", "org.jetbrains.kotlin:kotlin-reflect")
+        add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit5")
+        add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
     }
-}
 
-allOpen {
-    annotation("jakarta.persistence.Entity")
-    annotation("jakarta.persistence.MappedSuperclass")
-    annotation("jakarta.persistence.Embeddable")
-}
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
+    extensions.configure<KotlinJvmProjectExtension> {
+        compilerOptions {
+            freeCompilerArgs.add("-Xjsr305=strict")
+        }
+    }
 
-tasks.bootBuildImage {
-    runImage = "paketobuildpacks/ubuntu-noble-run-base:latest"
-}
+    val springBootVersion: String by rootProject.extra
+    val springCloudVersion: String by rootProject.extra
 
-tasks.test {
-    outputs.dir(project.extra["snippetsDir"]!!)
-}
-
-tasks.asciidoctor {
-    inputs.dir(project.extra["snippetsDir"]!!)
-    dependsOn(tasks.test)
+    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+        }
+    }
 }

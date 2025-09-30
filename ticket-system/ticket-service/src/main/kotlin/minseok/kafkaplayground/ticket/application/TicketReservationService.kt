@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class TicketReservationService(
     private val ticketReservationRepository: TicketReservationRepository,
+    private val ticketReservationPublisher: TicketReservationPublisher,
 ) {
     @Transactional
     fun reserve(command: ReserveTicketCommand): TicketReservation {
@@ -15,7 +16,9 @@ class TicketReservationService(
             memberId = command.memberId,
             seatNumber = command.seatNumber,
         )
-        return ticketReservationRepository.save(reservation)
+        val saved = ticketReservationRepository.save(reservation)
+        ticketReservationPublisher.publishReserved(saved)
+        return saved
     }
 
     fun findByMember(memberId: Long): List<TicketReservation> {

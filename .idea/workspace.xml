@@ -4,9 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="refactor: reorganize project structure and update .gitignore paths">
-      <change afterPath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/common/BaseEntity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/member/MemberEntity.kt" afterDir="false" />
+    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools">
+      <change afterPath="$PROJECT_DIR$/ticket-system/api-gateway/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.debezium.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.gateway.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.load.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.observability.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.payment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.queue.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/compose.ticket.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/payment-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/queue-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket-system/ticket-service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/observability/prometheus/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/observability/prometheus/prometheus.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/KafkaPlaygroundApplication.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/common/BaseEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/kotlin/minseok/kafkaplayground/member/MemberEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/test/kotlin/minseok/kafkaplayground/KafkaPlaygroundApplicationTests.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/test/kotlin/minseok/kafkaplayground/TestKafkaPlaygroundApplication.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/src/test/kotlin/minseok/kafkaplayground/TestcontainersConfiguration.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/adapter/TicketReservationController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/adapter/TicketReservationController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,12 +80,16 @@
     &quot;assignee&quot;: &quot;Minseok-2001&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Minseok-2001/ticket-system-be.git&quot;,
-    &quot;accountId&quot;: &quot;c505766e-0025-4256-b14f-6048da18a741&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Minseok-2001/kafka-playground.git",
+    "accountId": "c505766e-0025-4256-b14f-6048da18a741"
   }
-}</component>
+}]]></component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -72,21 +102,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;application.passwordSafe&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\zxcva\Documents\GitHub\kafka-playground\ticket-system" />
@@ -95,7 +128,17 @@
       <recent name="C:\Users\zxcva\Documents\GitHub\kafka-playground\ticket-system" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.KafkaPlaygroundApplication">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="ticket-system-be" />
       <method v="2">
@@ -107,9 +150,37 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.api-gateway.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.gateway.ApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="KafkaPlaygroundApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="kafka-playground.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.KafkaPlaygroundApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PaymentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.payment-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.payment.PaymentServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QueueServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.queue-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.queue.QueueServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TicketServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.ticket-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.ticket.TicketServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -131,6 +202,7 @@
       <option name="presentableId" value="Default" />
       <updated>1759168936464</updated>
       <workItem from="1759168937454" duration="1121000" />
+      <workItem from="1759214465122" duration="1888000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers">
       <option name="closed" value="true" />
@@ -148,7 +220,31 @@
       <option name="project" value="LOCAL" />
       <updated>1759169728576</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: implement ticket reservation system with JPA entities, service, and controller">
+      <option name="closed" value="true" />
+      <created>1759215079583</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1759215079583</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: configure application properties for API gateway, payment service, and queue service">
+      <option name="closed" value="true" />
+      <created>1759216735911</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216735911</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools">
+      <option name="closed" value="true" />
+      <created>1759216746390</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216746390</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,6 +253,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers" />
     <MESSAGE value="refactor: reorganize project structure and update .gitignore paths" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: reorganize project structure and update .gitignore paths" />
+    <MESSAGE value="feat: implement ticket reservation system with JPA entities, service, and controller" />
+    <MESSAGE value="feat: configure application properties for API gateway, payment service, and queue service" />
+    <MESSAGE value="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add Docker Compose configurations for services including Debezium, API Gateway, Payment, Queue, Ticket, and observability tools" />
   </component>
 </project>

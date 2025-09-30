@@ -42,9 +42,9 @@ class TicketReservationController(
 
 data class ReserveTicketRequest(
     @field:NotNull
-    val memberId: Long?,
+    val memberId: Long,
     @field:NotBlank
-    val seatNumber: String?,
+    val seatNumber: String,
 )
 
 data class TicketReservationResponse(

@@ -1,76 +1,6 @@
 name: ticket-system
 
 services:
-  mysql:
-    image: mysql:8.4
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: ticket_system
-      MYSQL_USER: ticket_user
-      MYSQL_PASSWORD: ticket_pass
-    command:
-      - --default-authentication-plugin=mysql_native_password
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot_password"]
-      interval: 10s
-      retries: 5
-      timeout: 5s
-      start_period: 30s
-    networks:
-      - app
-
-  mysql-exporter:
-    image: prom/mysqld-exporter:v0.15.1
-    restart: unless-stopped
-    environment:
-      DATA_SOURCE_NAME: root:root_password@tcp(mysql:3306)/?parseTime=true
-    depends_on:
-      mysql:
-        condition: service_healthy
-    ports:
-      - "9104:9104"
-    networks:
-      - app
-      - monitoring
-
-  redis:
-    image: redis:7.4-alpine
-    restart: unless-stopped
-    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      retries: 5
-      timeout: 5s
-      start_period: 10s
-    networks:
-      - app
-
-  redis-exporter:
-    image: oliver006/redis_exporter:latest
-    restart: unless-stopped
-    environment:
-      REDIS_ADDR: redis:6379
-    depends_on:
-      redis:
-        condition: service_healthy
-    ports:
-      - "9121:9121"
-    networks:
-      - app
-      - monitoring
-
   kafka:
     image: bitnami/kafka:3.8
     restart: unless-stopped
@@ -90,8 +20,6 @@ services:
       KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_CFG_DEFAULT_REPLICATION_FACTOR: 1
-      KAFKA_ENABLE_KRAFT: "yes"
       ALLOW_PLAINTEXT_LISTENER: "yes"
     volumes:
       - kafka-data:/bitnami/kafka
@@ -102,94 +30,25 @@ services:
       timeout: 10s
       start_period: 30s
     networks:
-      - app
-
-  kafka-exporter:
-    image: bitnami/kafka-exporter:latest
-    restart: unless-stopped
-    environment:
-      KAFKA_EXPORTER_KAFKA_SERVER: kafka:9092
-    depends_on:
-      kafka:
-        condition: service_started
-    ports:
-      - "9308:9308"
-    networks:
-      - app
-      - monitoring
+      - core
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     restart: unless-stopped
+    ports:
+      - "8085:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: ticket-broker
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     depends_on:
       kafka:
         condition: service_started
-    ports:
-      - "8080:8080"
     networks:
-      - app
-
-  prometheus:
-    image: prom/prometheus:v2.55.0
-    restart: unless-stopped
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --storage.tsdb.retention.time=7d
-    volumes:
-      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    depends_on:
-      kafka-exporter:
-        condition: service_started
-      mysql-exporter:
-        condition: service_started
-      redis-exporter:
-        condition: service_started
-    ports:
-      - "9090:9090"
-    networks:
-      - monitoring
-
-  grafana:
-    image: grafana/grafana:11.3.0
-    restart: unless-stopped
-    environment:
-      GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
-      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards
-    depends_on:
-      prometheus:
-        condition: service_started
-    ports:
-      - "3000:3000"
-    networks:
-      - monitoring
-
-  k6:
-    image: grafana/k6:latest
-    profiles: ["load"]
-    entrypoint: ["/bin/sh", "-c"]
-    command: ["sleep infinity"]
-    volumes:
-      - ./load-testing:/scripts
-    working_dir: /scripts
-    networks:
-      - app
+      - core
 
 volumes:
-  mysql-data:
-  redis-data:
   kafka-data:
-  grafana-data:
 
 networks:
-  app:
-    driver: bridge
-  monitoring:
+  core:
     driver: bridge

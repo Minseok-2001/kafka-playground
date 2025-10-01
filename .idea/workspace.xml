@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add notification service with Kafka integration and coupon policy management">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/event/DomainEvent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/event/DomainEvent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/TsidFactoryProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/TsidFactoryProvider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/member-service/src/main/kotlin/minseok/kafkaplayground/member/application/MemberService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/member-service/src/main/kotlin/minseok/kafkaplayground/member/application/MemberService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/adapter/PaymentController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/adapter/PaymentController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/application/PaymentEventPublisher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/application/PaymentEventPublisher.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/test/kotlin/minseok/kafkaplayground/payment/application/PaymentServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/test/kotlin/minseok/kafkaplayground/payment/application/PaymentServiceTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/test/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/test/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationServiceTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/waiting-service/src/test/kotlin/minseok/kafkaplayground/waiting/application/WaitingServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/waiting-service/src/test/kotlin/minseok/kafkaplayground/waiting/application/WaitingServiceTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,6 +130,7 @@
     "Spring Boot.PaymentServiceApplication.executor": "Run",
     "Spring Boot.QueueServiceApplication.executor": "Run",
     "Spring Boot.TicketServiceApplication.executor": "Run",
+    "android.gradle.sync.needed": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system",
@@ -170,7 +162,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
+  <component name="RunManager" selected="Gradle.ticket-system [test]">
     <configuration name="ticket-system [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -329,7 +321,8 @@
       <workItem from="1759168937454" duration="1121000" />
       <workItem from="1759214465122" duration="8030000" />
       <workItem from="1759229917964" duration="4629000" />
-      <workItem from="1759296808136" duration="212000" />
+      <workItem from="1759296808136" duration="393000" />
+      <workItem from="1759297226113" duration="254000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers">
       <option name="closed" value="true" />
@@ -475,7 +468,23 @@
       <option name="project" value="LOCAL" />
       <updated>1759250036800</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="lint: apply ktlint">
+      <option name="closed" value="true" />
+      <created>1759297055862</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1759297055862</updated>
+    </task>
+    <task id="LOCAL-00020" summary="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts">
+      <option name="closed" value="true" />
+      <created>1759297474493</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1759297474493</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -500,7 +509,9 @@
     <MESSAGE value="feat: refactor application.yaml to configure Spring Cloud Gateway with webflux server" />
     <MESSAGE value="feat: implement PaymentTransactionEvent handling and consumer for ticket reservations" />
     <MESSAGE value="feat: add notification service with Kafka integration and coupon policy management" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add notification service with Kafka integration and coupon policy management" />
+    <MESSAGE value="lint: apply ktlint" />
+    <MESSAGE value="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -8,6 +8,7 @@ plugins {
     id("org.springframework.boot") version "3.5.6" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
     id("org.asciidoctor.jvm.convert") version "3.3.2" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0" apply false
 }
 
 group = "minseok"
@@ -35,6 +36,7 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
         add("implementation", "org.jetbrains.kotlin:kotlin-reflect")

@@ -1,9 +1,9 @@
 services:
   k6:
     image: grafana/k6:latest
-    profiles: ["load"]
-    entrypoint: ["/bin/sh", "-c"]
-    command: ["sleep infinity"]
+    profiles: [ "load" ]
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: [ "sleep infinity" ]
     volumes:
       - ./load-testing:/scripts
     working_dir: /scripts

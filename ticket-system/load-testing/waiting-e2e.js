@@ -1,6 +1,6 @@
 import http from "k6/http";
-import { check, sleep } from "k6";
-import { Counter } from "k6/metrics";
+import {check, sleep} from "k6";
+import {Counter} from "k6/metrics";
 
 export const options = {
   scenarios: {
@@ -29,14 +29,14 @@ const issueSuccess = new Counter("waiting_issue_success");
 export default function () {
   const memberId = MEMBER_OFFSET + __VU * 100000 + __ITER;
   const issueRes = http.post(
-    `${BASE_URL}/api/waiting/${QUEUE_CODE}/tickets`,
-    JSON.stringify({ memberId }),
-    {
-      headers: {
-        "Content-Type": "application/json",
+      `${BASE_URL}/api/waiting/${QUEUE_CODE}/tickets`,
+      JSON.stringify({memberId}),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        tags: {name: "issue-ticket"},
       },
-      tags: { name: "issue-ticket" },
-    },
   );
 
   const okIssue = check(issueRes, {
@@ -52,13 +52,14 @@ export default function () {
   const ticketId = issueRes.json("id");
 
   const statusRes = http.get(
-    `${BASE_URL}/api/waiting/${QUEUE_CODE}/tickets/${memberId}`,
-    { tags: { name: "get-status" } },
+      `${BASE_URL}/api/waiting/${QUEUE_CODE}/tickets/${memberId}`,
+      {tags: {name: "get-status"}},
   );
 
   check(statusRes, {
     "status 200": (r) => r.status === 200,
-    "status matches ticket": (r) => Number(r.json("ticketId")) === Number(ticketId),
+    "status matches ticket": (r) => Number(r.json("ticketId")) === Number(
+        ticketId),
     "status waiting": (r) => r.json("status") === "WAITING",
   });
 

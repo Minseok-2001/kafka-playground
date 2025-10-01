@@ -48,7 +48,11 @@ class PaymentServiceTest {
     fun `markApproved should set status to approved and publish`() {
         val transactionId = 7L
         val transaction = sampleTransaction().withId(transactionId)
-        given { paymentTransactionRepository.findById(transactionId) } answers { Optional.of(transaction) }
+        given { paymentTransactionRepository.findById(transactionId) } answers {
+            Optional.of(
+                transaction,
+            )
+        }
         given { paymentEventPublisher.publish(transaction) } just Runs
 
         paymentService.markApproved(transactionId)
@@ -61,7 +65,11 @@ class PaymentServiceTest {
     fun `markCompensated should set status to compensated and publish`() {
         val transactionId = 8L
         val transaction = sampleTransaction().withId(transactionId)
-        given { paymentTransactionRepository.findById(transactionId) } answers { Optional.of(transaction) }
+        given { paymentTransactionRepository.findById(transactionId) } answers {
+            Optional.of(
+                transaction,
+            )
+        }
         given { paymentEventPublisher.publish(transaction) } just Runs
 
         paymentService.markCompensated(transactionId)
@@ -79,11 +87,10 @@ class PaymentServiceTest {
             .hasMessageContaining("payment transaction not found")
     }
 
-    private fun sampleTransaction(): PaymentTransaction =
-        PaymentTransaction(
-            reservationId = 11L,
-            amount = BigDecimal("10.00"),
-        )
+    private fun sampleTransaction(): PaymentTransaction = PaymentTransaction(
+        reservationId = 11L,
+        amount = BigDecimal("10.00"),
+    )
 
     private fun PaymentTransaction.withId(id: Long): PaymentTransaction {
         val field = BaseEntity::class.java.getDeclaredField("id")

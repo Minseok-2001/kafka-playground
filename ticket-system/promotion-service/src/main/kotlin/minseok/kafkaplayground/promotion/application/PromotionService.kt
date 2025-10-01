@@ -92,8 +92,7 @@ class PromotionService(
     }
 
     @Transactional(readOnly = true)
-    fun findCoupon(couponId: Long): IssuedCoupon =
-        issuedCouponRepository
-            .findById(couponId)
-            .orElseThrow { IllegalArgumentException("issued coupon not found: ") }
+    fun findCoupon(couponId: Long): IssuedCoupon = issuedCouponRepository
+        .findById(couponId)
+        .orElseThrow { IllegalArgumentException("issued coupon not found: ") }
 }

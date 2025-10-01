@@ -39,7 +39,11 @@ object TsidFactoryProvider {
 
         nodeId?.let { builder.withNode(it) }
 
-        logger.info("Configured TSID factory with nodeBits={} and nodeId={}", nodeBits, nodeId ?: "auto")
+        logger.info(
+            "Configured TSID factory with nodeBits={} and nodeId={}",
+            nodeBits,
+            nodeId ?: "auto",
+        )
         return builder.build()
     }
 
@@ -48,7 +52,8 @@ object TsidFactoryProvider {
         environmentVariable: String,
     ): Int? {
         val propertyValue = System.getProperty(systemProperty)?.takeIf { it.isNotBlank() }
-        val rawValue = propertyValue ?: System.getenv(environmentVariable)?.takeIf { it.isNotBlank() }
+        val rawValue =
+            propertyValue ?: System.getenv(environmentVariable)?.takeIf { it.isNotBlank() }
         return rawValue?.let {
             runCatching { it.toInt() }
                 .getOrElse { throw IllegalArgumentException("$systemProperty/$environmentVariable must be an integer, but was '$it'") }

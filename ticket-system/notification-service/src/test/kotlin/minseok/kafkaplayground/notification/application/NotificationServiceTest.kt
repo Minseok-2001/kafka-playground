@@ -101,7 +101,9 @@ class NotificationServiceTest {
             )
         setId(notification, 700)
 
-        given { notificationRequestRepository.findById(notification.id) } returns Optional.of(notification)
+        given { notificationRequestRepository.findById(notification.id) } returns Optional.of(
+            notification,
+        )
         given { notificationRequestRepository.save(notification) } returns notification
 
         val result = notificationService.markSent(MarkNotificationSentCommand(notificationId = 700))
@@ -123,7 +125,9 @@ class NotificationServiceTest {
             )
         setId(notification, 900)
 
-        given { notificationRequestRepository.findById(notification.id) } returns Optional.of(notification)
+        given { notificationRequestRepository.findById(notification.id) } returns Optional.of(
+            notification,
+        )
         given { notificationRequestRepository.save(notification) } returns notification
 
         val result =
@@ -137,7 +141,15 @@ class NotificationServiceTest {
         assertEquals(NotificationStatus.FAILED, result.status)
         assertEquals("smtp down", result.failureReason)
         val publishedAt = slot<Instant>()
-        then { notificationEventPublisher.publish(900, 13, "EMAIL", "FAILED", capture(publishedAt)) }
+        then {
+            notificationEventPublisher.publish(
+                900,
+                13,
+                "EMAIL",
+                "FAILED",
+                capture(publishedAt),
+            )
+        }
     }
 
     private fun setId(

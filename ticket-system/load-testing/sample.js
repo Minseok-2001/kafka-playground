@@ -1,5 +1,5 @@
 import http from "k6/http";
-import { check, sleep } from "k6";
+import {check, sleep} from "k6";
 
 export const options = {
   vus: Number(__ENV.K6_VUS || 20),
@@ -11,7 +11,8 @@ export const options = {
 };
 
 export default function () {
-  const target = __ENV.TARGET_URL || "http://host.docker.internal:8080/actuator/health";
+  const target = __ENV.TARGET_URL
+      || "http://host.docker.internal:8080/actuator/health";
   const res = http.get(target);
   check(res, {
     "status is 200": (r) => r.status === 200,

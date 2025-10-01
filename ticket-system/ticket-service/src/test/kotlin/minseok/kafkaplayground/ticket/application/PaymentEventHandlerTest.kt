@@ -25,7 +25,11 @@ class PaymentEventHandlerTest {
             ).withId(501L)
         val savedSlot = slot<TicketReservation>()
 
-        given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
+        given { ticketReservationRepository.findById(reservation.id) } answers {
+            Optional.of(
+                reservation,
+            )
+        }
         given { ticketReservationRepository.save(capture(savedSlot)) } answers { savedSlot.captured }
 
         handler.handle(
@@ -49,7 +53,11 @@ class PaymentEventHandlerTest {
             ).withId(777L)
         val savedSlot = slot<TicketReservation>()
 
-        given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
+        given { ticketReservationRepository.findById(reservation.id) } answers {
+            Optional.of(
+                reservation,
+            )
+        }
         given { ticketReservationRepository.save(capture(savedSlot)) } answers { savedSlot.captured }
 
         handler.handle(
@@ -73,7 +81,11 @@ class PaymentEventHandlerTest {
             ).withId(888L)
         val savedSlot = slot<TicketReservation>()
 
-        given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
+        given { ticketReservationRepository.findById(reservation.id) } answers {
+            Optional.of(
+                reservation,
+            )
+        }
         given { ticketReservationRepository.save(capture(savedSlot)) } answers { savedSlot.captured }
 
         handler.handle(
@@ -114,7 +126,11 @@ class PaymentEventHandlerTest {
             ).withId(999L)
         val savedSlot = slot<TicketReservation>()
 
-        given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
+        given { ticketReservationRepository.findById(reservation.id) } answers {
+            Optional.of(
+                reservation,
+            )
+        }
         given { ticketReservationRepository.save(capture(savedSlot)) } answers { savedSlot.captured }
 
         handler.handle(

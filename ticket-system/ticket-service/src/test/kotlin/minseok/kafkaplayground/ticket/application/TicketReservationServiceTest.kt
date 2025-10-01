@@ -16,7 +16,8 @@ import org.junit.jupiter.api.Test
 class TicketReservationServiceTest {
     private val ticketReservationRepository = mockk<TicketReservationRepository>()
     private val ticketReservationPublisher = mockk<TicketReservationPublisher>()
-    private val ticketReservationService = TicketReservationService(ticketReservationRepository, ticketReservationPublisher)
+    private val ticketReservationService =
+        TicketReservationService(ticketReservationRepository, ticketReservationPublisher)
 
     @Test
     fun `reserve should persist reservation and publish event`() {

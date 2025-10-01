@@ -178,7 +178,8 @@ class WaitingServiceTest {
         } returns Optional.of(ticket)
         given { waitingQueueStore.position(ticket.queueCode, ticket.id) } returns 12
 
-        val status = waitingService.getStatus(WaitingStatusQuery(queueCode = "concert", memberId = 10))
+        val status =
+            waitingService.getStatus(WaitingStatusQuery(queueCode = "concert", memberId = 10))
 
         assertEquals(12, status.position)
         assertEquals("WAITING", status.status)

@@ -139,7 +139,12 @@ class PromotionServiceTest {
 
         val issuedSlot = slot<IssuedCoupon>()
         given { couponPolicyRepository.findById(policy.id) } returns Optional.of(policy)
-        given { issuedCouponRepository.findByPolicyIdAndMemberId(policy.id, command.memberId) } returns Optional.empty()
+        given {
+            issuedCouponRepository.findByPolicyIdAndMemberId(
+                policy.id,
+                command.memberId,
+            )
+        } returns Optional.empty()
         given { issuedCouponRepository.save(capture(issuedSlot)) } returns savedCoupon
 
         val result = promotionService.issueCoupon(command)

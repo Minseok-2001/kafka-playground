@@ -12,7 +12,7 @@ services:
     volumes:
       - waiting-mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -23,11 +23,11 @@ services:
   waiting-redis:
     image: redis:7.4
     restart: unless-stopped
-    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    command: [ "redis-server", "--save", "", "--appendonly", "no" ]
     ports:
       - "6380:6379"
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -57,7 +57,7 @@ services:
     ports:
       - "8087:8087"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8087/actuator/health" ]
       interval: 15s
       timeout: 5s
       retries: 5

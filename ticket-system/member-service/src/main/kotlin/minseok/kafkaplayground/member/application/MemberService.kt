@@ -59,8 +59,7 @@ class MemberService(
     @Transactional(readOnly = true)
     fun find(memberId: Long): MemberAccount = loadMember(memberId)
 
-    private fun loadMember(memberId: Long): MemberAccount =
-        memberAccountRepository
-            .findById(memberId)
-            .orElseThrow { IllegalArgumentException("member not found: ") }
+    private fun loadMember(memberId: Long): MemberAccount = memberAccountRepository
+        .findById(memberId)
+        .orElseThrow { IllegalArgumentException("member not found: ") }
 }

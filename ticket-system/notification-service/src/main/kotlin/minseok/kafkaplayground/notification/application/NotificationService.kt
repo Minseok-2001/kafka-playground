@@ -78,8 +78,7 @@ class NotificationService(
         )
     }
 
-    private fun load(notificationId: Long): NotificationRequest =
-        notificationRequestRepository
-            .findById(notificationId)
-            .orElseThrow { IllegalArgumentException("notification not found: ") }
+    private fun load(notificationId: Long): NotificationRequest = notificationRequestRepository
+        .findById(notificationId)
+        .orElseThrow { IllegalArgumentException("notification not found: ") }
 }

@@ -5,28 +5,28 @@ global:
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: ["prometheus:9090"]
+      - targets: [ "prometheus:9090" ]
 
   - job_name: kafka-broker
     static_configs:
-      - targets: ["kafka-exporter:9308"]
+      - targets: [ "kafka-exporter:9308" ]
 
   - job_name: api-gateway
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["api-gateway:8080"]
+      - targets: [ "api-gateway:8080" ]
 
   - job_name: ticket-service
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["ticket-service:8081"]
+      - targets: [ "ticket-service:8081" ]
 
   - job_name: payment-service
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["payment-service:8082"]
+      - targets: [ "payment-service:8082" ]
 
   - job_name: queue-service
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["queue-service:8083"]
+      - targets: [ "queue-service:8083" ]

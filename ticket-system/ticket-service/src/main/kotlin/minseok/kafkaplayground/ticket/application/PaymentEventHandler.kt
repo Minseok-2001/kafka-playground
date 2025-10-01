@@ -17,7 +17,10 @@ class PaymentEventHandler(
     fun handle(event: PaymentTransactionEvent) {
         val reservationOptional = ticketReservationRepository.findById(event.reservationId)
         if (reservationOptional.isEmpty) {
-            logger.warn("reservation not found for payment event reservationId={}", event.reservationId)
+            logger.warn(
+                "reservation not found for payment event reservationId={}",
+                event.reservationId,
+            )
             return
         }
 
@@ -28,14 +31,17 @@ class PaymentEventHandler(
                     reservation.confirm()
                     true
                 }
+
                 ReservationStatus.COMPENSATED.name, "COMPENSATED" -> {
                     reservation.compensate()
                     true
                 }
+
                 ReservationStatus.CANCELLED.name, "REJECTED" -> {
                     reservation.cancel()
                     true
                 }
+
                 else -> {
                     logger.debug("ignored payment event status={}", event.status)
                     false

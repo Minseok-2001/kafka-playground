@@ -15,9 +15,7 @@ import minseok.kafkaplayground.notification.domain.NotificationRequestRepository
 import minseok.kafkaplayground.notification.domain.NotificationStatus
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.time.Clock
 import java.time.Instant
-import java.time.ZoneOffset
 import java.util.Optional
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -25,7 +23,6 @@ import kotlin.test.assertTrue
 class NotificationServiceTest {
     private val notificationRequestRepository = mockk<NotificationRequestRepository>()
     private val notificationEventPublisher = mockk<NotificationEventPublisher>(relaxed = true)
-    private val clock = Clock.fixed(Instant.parse("2025-10-01T00:00:00Z"), ZoneOffset.UTC)
     private lateinit var notificationService: NotificationService
 
     @BeforeEach
@@ -34,7 +31,6 @@ class NotificationServiceTest {
             NotificationService(
                 notificationRequestRepository,
                 notificationEventPublisher,
-                clock,
             )
     }
 

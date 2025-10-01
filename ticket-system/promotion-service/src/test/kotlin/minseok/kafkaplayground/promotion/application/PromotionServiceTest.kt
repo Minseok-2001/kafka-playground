@@ -40,7 +40,6 @@ class PromotionServiceTest {
                 couponPolicyRepository,
                 issuedCouponRepository,
                 couponEventPublisher,
-                clock,
             )
     }
 

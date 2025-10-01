@@ -20,11 +20,12 @@ class MemberService(
             throw IllegalArgumentException("email already in use: ")
         }
 
-        val member = MemberAccount(
-            email = command.email,
-            nickname = command.nickname,
-            notificationChannel = command.notificationChannel,
-        )
+        val member =
+            MemberAccount(
+                email = command.email,
+                nickname = command.nickname,
+                notificationChannel = command.notificationChannel,
+            )
         val saved = memberAccountRepository.save(member)
         memberEventPublisher.publish(saved.id, type = "REGISTERED")
         return saved
@@ -48,17 +49,18 @@ class MemberService(
             MemberStatus.WITHDRAWN -> member.withdraw()
         }
         val updated = memberAccountRepository.save(member)
-        memberEventPublisher.publish(updated.id, type = "STATUS_")
+        memberEventPublisher.publish(
+            updated.id,
+            type = "STATUS_${updated.status.name}",
+        )
         return updated
     }
 
     @Transactional(readOnly = true)
-    fun find(memberId: Long): MemberAccount {
-        return loadMember(memberId)
-    }
+    fun find(memberId: Long): MemberAccount = loadMember(memberId)
 
-    private fun loadMember(memberId: Long): MemberAccount {
-        return memberAccountRepository.findById(memberId)
+    private fun loadMember(memberId: Long): MemberAccount =
+        memberAccountRepository
+            .findById(memberId)
             .orElseThrow { IllegalArgumentException("member not found: ") }
-    }
 }

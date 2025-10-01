@@ -20,7 +20,10 @@ class MemberAccount(
     @Column(name = "notification_channel")
     var notificationChannel: String? = null,
 ) : BaseEntity() {
-    fun updateProfile(newNickname: String, newNotificationChannel: String?) {
+    fun updateProfile(
+        newNickname: String,
+        newNotificationChannel: String?,
+    ) {
         nickname = newNickname
         notificationChannel = newNotificationChannel
     }

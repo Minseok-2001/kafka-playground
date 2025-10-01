@@ -13,10 +13,11 @@ class PaymentService(
 ) {
     @Transactional
     fun requestPayment(command: RequestPaymentCommand): PaymentTransaction {
-        val transaction = PaymentTransaction(
-            reservationId = command.reservationId,
-            amount = command.amount,
-        )
+        val transaction =
+            PaymentTransaction(
+                reservationId = command.reservationId,
+                amount = command.amount,
+            )
         val saved = paymentTransactionRepository.save(transaction)
         paymentEventPublisher.publish(saved)
         return saved
@@ -24,16 +25,20 @@ class PaymentService(
 
     @Transactional
     fun markApproved(transactionId: Long) {
-        val transaction = paymentTransactionRepository.findById(transactionId)
-            .orElseThrow { IllegalArgumentException("payment transaction not found: $transactionId") }
+        val transaction =
+            paymentTransactionRepository
+                .findById(transactionId)
+                .orElseThrow { IllegalArgumentException("payment transaction not found: $transactionId") }
         transaction.approve()
         paymentEventPublisher.publish(transaction)
     }
 
     @Transactional
     fun markCompensated(transactionId: Long) {
-        val transaction = paymentTransactionRepository.findById(transactionId)
-            .orElseThrow { IllegalArgumentException("payment transaction not found: $transactionId") }
+        val transaction =
+            paymentTransactionRepository
+                .findById(transactionId)
+                .orElseThrow { IllegalArgumentException("payment transaction not found: $transactionId") }
         transaction.compensate()
         paymentEventPublisher.publish(transaction)
     }

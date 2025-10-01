@@ -27,19 +27,24 @@ class NotificationController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@Valid @RequestBody request: CreateNotificationRequest): NotificationResponse {
-        val command = CreateNotificationCommand(
-            memberId = request.memberId,
-            channel = request.channel,
-            subject = request.subject,
-            body = request.body,
-            scheduledAt = request.scheduledAt,
-        )
+    fun create(
+        @Valid @RequestBody request: CreateNotificationRequest,
+    ): NotificationResponse {
+        val command =
+            CreateNotificationCommand(
+                memberId = request.memberId,
+                channel = request.channel,
+                subject = request.subject,
+                body = request.body,
+                scheduledAt = request.scheduledAt,
+            )
         return notificationService.create(command).toResponse()
     }
 
     @PostMapping("/{notificationId}/send")
-    fun send(@PathVariable notificationId: Long): NotificationResponse {
+    fun send(
+        @PathVariable notificationId: Long,
+    ): NotificationResponse {
         val command = MarkNotificationSentCommand(notificationId = notificationId)
         return notificationService.markSent(command).toResponse()
     }
@@ -49,15 +54,16 @@ class NotificationController(
         @PathVariable notificationId: Long,
         @Valid @RequestBody request: MarkNotificationFailedRequest,
     ): NotificationResponse {
-        val command = MarkNotificationFailedCommand(
-            notificationId = notificationId,
-            reason = request.reason,
-        )
+        val command =
+            MarkNotificationFailedCommand(
+                notificationId = notificationId,
+                reason = request.reason,
+            )
         return notificationService.markFailed(command).toResponse()
     }
 
     @GetMapping("/{notificationId}")
-    fun get(@PathVariable notificationId: Long): NotificationResponse {
-        return notificationService.get(notificationId).toResponse()
-    }
+    fun get(
+        @PathVariable notificationId: Long,
+    ): NotificationResponse = notificationService.get(notificationId).toResponse()
 }

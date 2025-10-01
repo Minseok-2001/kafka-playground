@@ -1,11 +1,11 @@
 package minseok.kafkaplayground.ticket.application
 
 import io.mockk.Runs
+import io.mockk.bdd.given
+import io.mockk.bdd.then
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.bdd.given
-import io.mockk.bdd.then
 import minseok.kafkaplayground.common.BaseEntity
 import minseok.kafkaplayground.ticket.application.command.ReserveTicketCommand
 import minseok.kafkaplayground.ticket.domain.TicketReservation
@@ -14,7 +14,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class TicketReservationServiceTest {
-
     private val ticketReservationRepository = mockk<TicketReservationRepository>()
     private val ticketReservationPublisher = mockk<TicketReservationPublisher>()
     private val ticketReservationService = TicketReservationService(ticketReservationRepository, ticketReservationPublisher)
@@ -22,10 +21,11 @@ class TicketReservationServiceTest {
     @Test
     fun `reserve should persist reservation and publish event`() {
         val command = ReserveTicketCommand(memberId = 42L, seatNumber = "A-1")
-        val persistedReservation = TicketReservation(
-            memberId = command.memberId,
-            seatNumber = command.seatNumber,
-        ).withId(1001L)
+        val persistedReservation =
+            TicketReservation(
+                memberId = command.memberId,
+                seatNumber = command.seatNumber,
+            ).withId(1001L)
 
         val savedSlot = slot<TicketReservation>()
         given { ticketReservationRepository.save(capture(savedSlot)) } answers { persistedReservation }

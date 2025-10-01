@@ -22,28 +22,34 @@ class PaymentEventHandler(
         }
 
         val reservation = reservationOptional.get()
-        val updated = when (event.status.uppercase()) {
-            ReservationStatus.CONFIRMED.name, "APPROVED" -> {
-                reservation.confirm()
-                true
+        val updated =
+            when (event.status.uppercase()) {
+                ReservationStatus.CONFIRMED.name, "APPROVED" -> {
+                    reservation.confirm()
+                    true
+                }
+                ReservationStatus.COMPENSATED.name, "COMPENSATED" -> {
+                    reservation.compensate()
+                    true
+                }
+                ReservationStatus.CANCELLED.name, "REJECTED" -> {
+                    reservation.cancel()
+                    true
+                }
+                else -> {
+                    logger.debug("ignored payment event status={}", event.status)
+                    false
+                }
             }
-            ReservationStatus.COMPENSATED.name, "COMPENSATED" -> {
-                reservation.compensate()
-                true
-            }
-            ReservationStatus.CANCELLED.name, "REJECTED" -> {
-                reservation.cancel()
-                true
-            }
-            else -> {
-                logger.debug("ignored payment event status={}", event.status)
-                false
-            }
-        }
 
         if (updated) {
             ticketReservationRepository.save(reservation)
-            logger.info("updated reservation {} to status {} due to payment event {}", reservation.id, reservation.status, event.transactionId)
+            logger.info(
+                "updated reservation {} to status {} due to payment event {}",
+                reservation.id,
+                reservation.status,
+                event.transactionId,
+            )
         }
     }
 }

@@ -13,16 +13,15 @@ class TicketReservationService(
 ) {
     @Transactional
     fun reserve(command: ReserveTicketCommand): TicketReservation {
-        val reservation = TicketReservation(
-            memberId = command.memberId,
-            seatNumber = command.seatNumber,
-        )
+        val reservation =
+            TicketReservation(
+                memberId = command.memberId,
+                seatNumber = command.seatNumber,
+            )
         val saved = ticketReservationRepository.save(reservation)
         ticketReservationPublisher.publishReserved(saved)
         return saved
     }
 
-    fun findByMember(memberId: Long): List<TicketReservation> {
-        return ticketReservationRepository.findByMemberId(memberId)
-    }
+    fun findByMember(memberId: Long): List<TicketReservation> = ticketReservationRepository.findByMemberId(memberId)
 }

@@ -5,8 +5,8 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
-import java.time.Instant
 import minseok.kafkaplayground.common.BaseEntity
+import java.time.Instant
 
 @Entity
 @Table(name = "notification_request")
@@ -35,7 +35,10 @@ class NotificationRequest(
         failureReason = null
     }
 
-    fun markFailed(reason: String, failureTime: Instant) {
+    fun markFailed(
+        reason: String,
+        failureTime: Instant,
+    ) {
         status = NotificationStatus.FAILED
         failureReason = reason
         sentAt = failureTime

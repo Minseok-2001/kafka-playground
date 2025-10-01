@@ -13,12 +13,13 @@ class TicketReservationPublisher(
     private val objectMapper: ObjectMapper,
 ) {
     fun publishReserved(reservation: TicketReservation) {
-        val message = TicketReservationMessage(
-            reservationId = reservation.id,
-            memberId = reservation.memberId,
-            seatNumber = reservation.seatNumber,
-            status = reservation.status.name,
-        )
+        val message =
+            TicketReservationMessage(
+                reservationId = reservation.id,
+                memberId = reservation.memberId,
+                seatNumber = reservation.seatNumber,
+                status = reservation.status.name,
+            )
         val payload = objectMapper.writeValueAsString(message)
         kafkaTemplate.send(KafkaTopics.TICKET_RESERVATION, reservation.id.toString(), payload)
     }

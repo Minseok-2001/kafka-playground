@@ -17,12 +17,12 @@ class PaymentTransactionEventConsumer(
 
     @KafkaListener(topics = [KafkaTopics.PAYMENT_TRANSACTION], groupId = "ticket-service")
     fun consume(payload: String) {
-        val event = runCatching { objectMapper.readValue(payload, PaymentTransactionEvent::class.java) }
-            .onFailure { throwable ->
-                logger.error("failed to deserialize payment transaction event", throwable)
-            }
-            .getOrNull()
-            ?: return
+        val event =
+            runCatching { objectMapper.readValue(payload, PaymentTransactionEvent::class.java) }
+                .onFailure { throwable ->
+                    logger.error("failed to deserialize payment transaction event", throwable)
+                }.getOrNull()
+                ?: return
 
         paymentEventHandler.handle(event)
     }

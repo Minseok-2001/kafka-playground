@@ -32,10 +32,11 @@ class WaitingController(
         @PathVariable queueCode: String,
         @Valid @RequestBody request: IssueWaitingTicketRequest,
     ): WaitingTicketResponse {
-        val command = IssueWaitingTicketCommand(
-            queueCode = queueCode,
-            memberId = request.memberId,
-        )
+        val command =
+            IssueWaitingTicketCommand(
+                queueCode = queueCode,
+                memberId = request.memberId,
+            )
         return waitingService.issueTicket(command).toResponse()
     }
 
@@ -44,10 +45,11 @@ class WaitingController(
         @PathVariable ticketId: Long,
         @Valid @RequestBody request: AdmitWaitingTicketRequest,
     ): WaitingTicketResponse {
-        val command = AdmitWaitingTicketCommand(
-            ticketId = ticketId,
-            estimatedSecondsUntilEntry = request.estimatedSecondsUntilEntry,
-        )
+        val command =
+            AdmitWaitingTicketCommand(
+                ticketId = ticketId,
+                estimatedSecondsUntilEntry = request.estimatedSecondsUntilEntry,
+            )
         return waitingService.admitTicket(command).toResponse()
     }
 

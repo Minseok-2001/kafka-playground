@@ -13,9 +13,13 @@
             <option value="$PROJECT_DIR$/ticket-system" />
             <option value="$PROJECT_DIR$/ticket-system/api-gateway" />
             <option value="$PROJECT_DIR$/ticket-system/common" />
+            <option value="$PROJECT_DIR$/ticket-system/member-service" />
+            <option value="$PROJECT_DIR$/ticket-system/notification-service" />
             <option value="$PROJECT_DIR$/ticket-system/payment-service" />
+            <option value="$PROJECT_DIR$/ticket-system/promotion-service" />
             <option value="$PROJECT_DIR$/ticket-system/queue-service" />
             <option value="$PROJECT_DIR$/ticket-system/ticket-service" />
+            <option value="$PROJECT_DIR$/ticket-system/waiting-service" />
           </set>
         </option>
       </GradleProjectSettings>

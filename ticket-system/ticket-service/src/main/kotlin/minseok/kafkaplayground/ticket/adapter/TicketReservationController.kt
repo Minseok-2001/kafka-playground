@@ -4,8 +4,8 @@ import jakarta.validation.Valid
 import minseok.kafkaplayground.ticket.adapter.request.ReserveTicketRequest
 import minseok.kafkaplayground.ticket.adapter.response.TicketReservationResponse
 import minseok.kafkaplayground.ticket.adapter.response.toResponse
-import minseok.kafkaplayground.ticket.application.command.ReserveTicketCommand
 import minseok.kafkaplayground.ticket.application.TicketReservationService
+import minseok.kafkaplayground.ticket.application.command.ReserveTicketCommand
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,18 +24,21 @@ class TicketReservationController(
 ) {
     @PostMapping("/reservations")
     @ResponseStatus(HttpStatus.CREATED)
-    fun reserve(@Valid @RequestBody request: ReserveTicketRequest): TicketReservationResponse {
-        val reservation = ticketReservationService.reserve(
-            ReserveTicketCommand(
-                memberId = request.memberId,
-                seatNumber = request.seatNumber,
-            ),
-        )
+    fun reserve(
+        @Valid @RequestBody request: ReserveTicketRequest,
+    ): TicketReservationResponse {
+        val reservation =
+            ticketReservationService.reserve(
+                ReserveTicketCommand(
+                    memberId = request.memberId,
+                    seatNumber = request.seatNumber,
+                ),
+            )
         return reservation.toResponse()
     }
 
     @GetMapping("/reservations/{memberId}")
-    fun findByMember(@PathVariable memberId: Long): List<TicketReservationResponse> {
-        return ticketReservationService.findByMember(memberId).map { it.toResponse() }
-    }
+    fun findByMember(
+        @PathVariable memberId: Long,
+    ): List<TicketReservationResponse> = ticketReservationService.findByMember(memberId).map { it.toResponse() }
 }

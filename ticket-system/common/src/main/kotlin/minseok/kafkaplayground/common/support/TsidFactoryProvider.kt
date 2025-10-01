@@ -32,8 +32,10 @@ object TsidFactoryProvider {
             }
         }
 
-        val builder = TSID.Factory.builder()
-            .withNodeBits(nodeBits)
+        val builder =
+            TSID.Factory
+                .builder()
+                .withNodeBits(nodeBits)
 
         nodeId?.let { builder.withNode(it) }
 
@@ -41,7 +43,10 @@ object TsidFactoryProvider {
         return builder.build()
     }
 
-    private fun resolveInt(systemProperty: String, environmentVariable: String): Int? {
+    private fun resolveInt(
+        systemProperty: String,
+        environmentVariable: String,
+    ): Int? {
         val propertyValue = System.getProperty(systemProperty)?.takeIf { it.isNotBlank() }
         val rawValue = propertyValue ?: System.getenv(environmentVariable)?.takeIf { it.isNotBlank() }
         return rawValue?.let {

@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add notification service with Kafka integration and coupon policy management">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/api-gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/api-gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/KafkaTopics.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/KafkaTopics.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket-system/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/event/DomainEvent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/event/DomainEvent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/TsidFactoryProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/common/src/main/kotlin/minseok/kafkaplayground/common/support/TsidFactoryProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/member-service/src/main/kotlin/minseok/kafkaplayground/member/application/MemberService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/member-service/src/main/kotlin/minseok/kafkaplayground/member/application/MemberService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/adapter/PaymentController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/adapter/PaymentController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/application/PaymentEventPublisher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/main/kotlin/minseok/kafkaplayground/payment/application/PaymentEventPublisher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/payment-service/src/test/kotlin/minseok/kafkaplayground/payment/application/PaymentServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/payment-service/src/test/kotlin/minseok/kafkaplayground/payment/application/PaymentServiceTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/ticket-service/src/test/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/ticket-service/src/test/kotlin/minseok/kafkaplayground/ticket/application/TicketReservationServiceTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-system/waiting-service/src/test/kotlin/minseok/kafkaplayground/waiting/application/WaitingServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-system/waiting-service/src/test/kotlin/minseok/kafkaplayground/waiting/application/WaitingServiceTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +51,31 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="kafka-playground" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="kafka-playground" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="kafka-playground" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="documentation" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="kafka-playground" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="help" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="kafka-playground" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -109,7 +139,6 @@
     "Spring Boot.PaymentServiceApplication.executor": "Run",
     "Spring Boot.QueueServiceApplication.executor": "Run",
     "Spring Boot.TicketServiceApplication.executor": "Run",
-    "android.gradle.sync.needed": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system",
@@ -120,7 +149,7 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+    "settings.editor.selected.configurable": "preferences.ktlint-plugin"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -141,7 +170,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.ticket-system [test]">
+  <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
     <configuration name="ticket-system [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -211,9 +240,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MemberServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.member-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.member.MemberServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.notification-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.notification.NotificationServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PaymentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="kafka-playground.payment-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.payment.PaymentServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PromotionServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.promotion-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.promotion.PromotionServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -228,6 +278,13 @@
     <configuration name="TicketServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="ticket-service.kafka-playground.ticket-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.ticket.TicketServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WaitingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kafka-playground.waiting-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.waiting.WaitingServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -272,6 +329,7 @@
       <workItem from="1759168937454" duration="1121000" />
       <workItem from="1759214465122" duration="8030000" />
       <workItem from="1759229917964" duration="4629000" />
+      <workItem from="1759296808136" duration="212000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers">
       <option name="closed" value="true" />
@@ -443,5 +501,9 @@
     <MESSAGE value="feat: implement PaymentTransactionEvent handling and consumer for ticket reservations" />
     <MESSAGE value="feat: add notification service with Kafka integration and coupon policy management" />
     <option name="LAST_COMMIT_MESSAGE" value="feat: add notification service with Kafka integration and coupon policy management" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

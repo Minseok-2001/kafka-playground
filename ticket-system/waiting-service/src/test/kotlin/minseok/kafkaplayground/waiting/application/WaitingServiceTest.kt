@@ -7,22 +7,21 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import java.time.Clock
-import java.time.Duration
-import java.time.Instant
-import java.time.ZoneOffset
-import java.util.Optional
-import kotlin.test.assertEquals
 import minseok.kafkaplayground.waiting.application.command.AdmitWaitingTicketCommand
 import minseok.kafkaplayground.waiting.application.command.IssueWaitingTicketCommand
 import minseok.kafkaplayground.waiting.application.command.WaitingStatusQuery
 import minseok.kafkaplayground.waiting.domain.WaitingStatus
 import minseok.kafkaplayground.waiting.domain.WaitingTicket
 import minseok.kafkaplayground.waiting.domain.WaitingTicketRepository
-import minseok.kafkaplayground.waiting.support.WaitingEventPublisher
 import minseok.kafkaplayground.waiting.support.WaitingQueueStore
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.Clock
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneOffset
+import java.util.Optional
+import kotlin.test.assertEquals
 
 class WaitingServiceTest {
     private val waitingTicketRepository = mockk<WaitingTicketRepository>()
@@ -33,26 +32,34 @@ class WaitingServiceTest {
 
     @BeforeEach
     fun setUp() {
-        waitingService = WaitingService(
-            waitingTicketRepository,
-            waitingQueueStore,
-            waitingEventPublisher,
-            clock,
-        )
+        waitingService =
+            WaitingService(
+                waitingTicketRepository,
+                waitingQueueStore,
+                waitingEventPublisher,
+                clock,
+            )
     }
 
     @Test
     fun `should issue new ticket and enqueue`() {
         val command = IssueWaitingTicketCommand(queueCode = "concert", memberId = 10)
-        val issued = WaitingTicket(
-            queueCode = command.queueCode,
-            memberId = command.memberId,
-            issuedSequence = 1,
-            expiredAt = Instant.now(clock).plus(Duration.ofMinutes(15)),
-        )
+        val issued =
+            WaitingTicket(
+                queueCode = command.queueCode,
+                memberId = command.memberId,
+                issuedSequence = 1,
+                expiredAt = Instant.now(clock).plus(Duration.ofMinutes(15)),
+            )
         setId(issued, 100)
 
-        given { waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(command.queueCode, command.memberId, listOf(WaitingStatus.WAITING)) } returns Optional.empty()
+        given {
+            waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(
+                command.queueCode,
+                command.memberId,
+                listOf(WaitingStatus.WAITING),
+            )
+        } returns Optional.empty()
         val savedTicket = slot<WaitingTicket>()
         given { waitingTicketRepository.findTopByQueueCodeOrderByIssuedSequenceDesc(command.queueCode) } returns null
         given { waitingTicketRepository.save(capture(savedTicket)) } answers { issued }
@@ -67,15 +74,22 @@ class WaitingServiceTest {
     @Test
     fun `should reuse existing waiting ticket`() {
         val command = IssueWaitingTicketCommand(queueCode = "concert", memberId = 10)
-        val existing = WaitingTicket(
-            queueCode = command.queueCode,
-            memberId = command.memberId,
-            issuedSequence = 5,
-            expiredAt = Instant.now(clock).plusSeconds(60),
-        )
+        val existing =
+            WaitingTicket(
+                queueCode = command.queueCode,
+                memberId = command.memberId,
+                issuedSequence = 5,
+                expiredAt = Instant.now(clock).plusSeconds(60),
+            )
         setId(existing, 55)
 
-        given { waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(command.queueCode, command.memberId, listOf(WaitingStatus.WAITING)) } returns Optional.of(existing)
+        given {
+            waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(
+                command.queueCode,
+                command.memberId,
+                listOf(WaitingStatus.WAITING),
+            )
+        } returns Optional.of(existing)
 
         val result = waitingService.issueTicket(command)
 
@@ -86,24 +100,29 @@ class WaitingServiceTest {
     @Test
     fun `should expire old ticket and create new one`() {
         val command = IssueWaitingTicketCommand(queueCode = "concert", memberId = 10)
-        val existing = WaitingTicket(
-            queueCode = command.queueCode,
-            memberId = command.memberId,
-            issuedSequence = 2,
-            expiredAt = Instant.now(clock).minusSeconds(1),
-        )
+        val existing =
+            WaitingTicket(
+                queueCode = command.queueCode,
+                memberId = command.memberId,
+                issuedSequence = 2,
+                expiredAt = Instant.now(clock).minusSeconds(1),
+            )
         setId(existing, 21)
-        val newTicket = WaitingTicket(
-            queueCode = command.queueCode,
-            memberId = command.memberId,
-            issuedSequence = 3,
-            expiredAt = Instant.now(clock).plus(Duration.ofMinutes(15)),
-        )
-        setId(newTicket, 22)
-
-        given { waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(command.queueCode, command.memberId, listOf(WaitingStatus.WAITING)) } returns Optional.of(existing)
+        given {
+            waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(
+                command.queueCode,
+                command.memberId,
+                listOf(WaitingStatus.WAITING),
+            )
+        } returns Optional.of(existing)
         val savedTicket = slot<WaitingTicket>()
-        given { waitingTicketRepository.save(capture(savedTicket)) } answers { savedTicket.captured }
+        given { waitingTicketRepository.save(capture(savedTicket)) } answers {
+            val ticket = savedTicket.captured
+            if (ticket.id == 0L) {
+                setId(ticket, 22)
+            }
+            ticket
+        }
         given { waitingTicketRepository.findTopByQueueCodeOrderByIssuedSequenceDesc(command.queueCode) } returns existing
 
         val result = waitingService.issueTicket(command)
@@ -115,23 +134,25 @@ class WaitingServiceTest {
 
     @Test
     fun `should admit ticket and publish event`() {
-        val ticket = WaitingTicket(
-            queueCode = "concert",
-            memberId = 10,
-            issuedSequence = 9,
-            expiredAt = Instant.now(clock).plusSeconds(600),
-        )
+        val ticket =
+            WaitingTicket(
+                queueCode = "concert",
+                memberId = 10,
+                issuedSequence = 9,
+                expiredAt = Instant.now(clock).plusSeconds(600),
+            )
         setId(ticket, 200)
 
         given { waitingTicketRepository.findById(ticket.id) } returns Optional.of(ticket)
         given { waitingTicketRepository.save(ticket) } returns ticket
 
-        val result = waitingService.admitTicket(
-            AdmitWaitingTicketCommand(
-                ticketId = ticket.id,
-                estimatedSecondsUntilEntry = 30,
-            ),
-        )
+        val result =
+            waitingService.admitTicket(
+                AdmitWaitingTicketCommand(
+                    ticketId = ticket.id,
+                    estimatedSecondsUntilEntry = 30,
+                ),
+            )
 
         assertEquals(WaitingStatus.ADMITTED, result.status)
         then { waitingEventPublisher.publish("concert", 10, 9, 30) }
@@ -139,12 +160,13 @@ class WaitingServiceTest {
 
     @Test
     fun `should return queue position`() {
-        val ticket = WaitingTicket(
-            queueCode = "concert",
-            memberId = 10,
-            issuedSequence = 5,
-            expiredAt = Instant.now(clock).plusSeconds(600),
-        )
+        val ticket =
+            WaitingTicket(
+                queueCode = "concert",
+                memberId = 10,
+                issuedSequence = 5,
+                expiredAt = Instant.now(clock).plusSeconds(600),
+            )
         setId(ticket, 311)
 
         given {
@@ -162,7 +184,10 @@ class WaitingServiceTest {
         assertEquals("WAITING", status.status)
     }
 
-    private fun setId(ticket: WaitingTicket, value: Long) {
+    private fun setId(
+        ticket: WaitingTicket,
+        value: Long,
+    ) {
         val field = ticket.javaClass.superclass!!.getDeclaredField("id")
         field.isAccessible = true
         field.setLong(ticket, value)

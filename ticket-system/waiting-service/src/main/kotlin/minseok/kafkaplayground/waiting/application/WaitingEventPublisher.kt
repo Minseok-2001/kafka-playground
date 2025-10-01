@@ -11,13 +11,19 @@ class WaitingEventPublisher(
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val objectMapper: ObjectMapper,
 ) {
-    fun publish(queueCode: String, memberId: Long, ticketNumber: Long, etaSeconds: Long) {
-        val event = WaitingAdmissionEvent(
-            queueCode = queueCode,
-            memberId = memberId,
-            ticketNumber = ticketNumber,
-            estimatedSecondsUntilEntry = etaSeconds,
-        )
+    fun publish(
+        queueCode: String,
+        memberId: Long,
+        ticketNumber: Long,
+        etaSeconds: Long,
+    ) {
+        val event =
+            WaitingAdmissionEvent(
+                queueCode = queueCode,
+                memberId = memberId,
+                ticketNumber = ticketNumber,
+                estimatedSecondsUntilEntry = etaSeconds,
+            )
         val payload = objectMapper.writeValueAsString(event)
         kafkaTemplate.send(KafkaTopics.WAITING_ADMISSION, ":", payload)
     }

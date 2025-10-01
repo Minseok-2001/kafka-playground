@@ -5,8 +5,8 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
-import java.math.BigDecimal
 import minseok.kafkaplayground.common.BaseEntity
+import java.math.BigDecimal
 
 @Entity
 @Table(name = "payment_transaction")

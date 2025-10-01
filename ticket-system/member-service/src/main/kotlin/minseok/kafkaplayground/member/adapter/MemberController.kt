@@ -30,14 +30,17 @@ class MemberController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun register(@Valid @RequestBody request: RegisterMemberRequest): MemberResponse {
-        val member = memberService.register(
-            RegisterMemberCommand(
-                email = request.email,
-                nickname = request.nickname,
-                notificationChannel = request.notificationChannel,
-            ),
-        )
+    fun register(
+        @Valid @RequestBody request: RegisterMemberRequest,
+    ): MemberResponse {
+        val member =
+            memberService.register(
+                RegisterMemberCommand(
+                    email = request.email,
+                    nickname = request.nickname,
+                    notificationChannel = request.notificationChannel,
+                ),
+            )
         return member.toResponse()
     }
 
@@ -46,13 +49,14 @@ class MemberController(
         @PathVariable memberId: Long,
         @Valid @RequestBody request: UpdateMemberRequest,
     ): MemberResponse {
-        val member = memberService.updateProfile(
-            UpdateMemberProfileCommand(
-                memberId = memberId,
-                nickname = request.nickname,
-                notificationChannel = request.notificationChannel,
-            ),
-        )
+        val member =
+            memberService.updateProfile(
+                UpdateMemberProfileCommand(
+                    memberId = memberId,
+                    nickname = request.nickname,
+                    notificationChannel = request.notificationChannel,
+                ),
+            )
         return member.toResponse()
     }
 
@@ -62,17 +66,18 @@ class MemberController(
         @Valid @RequestBody request: ChangeMemberStatusRequest,
     ): MemberResponse {
         val targetStatus = MemberStatus.valueOf(request.status.uppercase())
-        val member = memberService.changeStatus(
-            ChangeMemberStatusCommand(
-                memberId = memberId,
-                targetStatus = targetStatus,
-            ),
-        )
+        val member =
+            memberService.changeStatus(
+                ChangeMemberStatusCommand(
+                    memberId = memberId,
+                    targetStatus = targetStatus,
+                ),
+            )
         return member.toResponse()
     }
 
     @GetMapping("/{memberId}")
-    fun find(@PathVariable memberId: Long): MemberResponse {
-        return memberService.find(memberId).toResponse()
-    }
+    fun find(
+        @PathVariable memberId: Long,
+    ): MemberResponse = memberService.find(memberId).toResponse()
 }

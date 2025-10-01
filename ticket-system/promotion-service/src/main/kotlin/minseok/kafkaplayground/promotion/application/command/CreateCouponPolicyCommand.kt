@@ -1,8 +1,8 @@
 package minseok.kafkaplayground.promotion.application.command
 
+import minseok.kafkaplayground.promotion.domain.BenefitType
 import java.math.BigDecimal
 import java.time.Instant
-import minseok.kafkaplayground.promotion.domain.BenefitType
 
 data class CreateCouponPolicyCommand(
     val code: String,

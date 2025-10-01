@@ -7,12 +7,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import java.time.Clock
-import java.time.Instant
-import java.time.ZoneOffset
-import java.util.Optional
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import minseok.kafkaplayground.notification.application.command.CreateNotificationCommand
 import minseok.kafkaplayground.notification.application.command.MarkNotificationFailedCommand
 import minseok.kafkaplayground.notification.application.command.MarkNotificationSentCommand
@@ -21,6 +15,12 @@ import minseok.kafkaplayground.notification.domain.NotificationRequestRepository
 import minseok.kafkaplayground.notification.domain.NotificationStatus
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneOffset
+import java.util.Optional
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class NotificationServiceTest {
     private val notificationRequestRepository = mockk<NotificationRequestRepository>()
@@ -30,11 +30,12 @@ class NotificationServiceTest {
 
     @BeforeEach
     fun setUp() {
-        notificationService = NotificationService(
-            notificationRequestRepository,
-            notificationEventPublisher,
-            clock,
-        )
+        notificationService =
+            NotificationService(
+                notificationRequestRepository,
+                notificationEventPublisher,
+                clock,
+            )
     }
 
     @Test
@@ -46,15 +47,16 @@ class NotificationServiceTest {
             entity
         }
 
-        val result = notificationService.create(
-            CreateNotificationCommand(
-                memberId = 10,
-                channel = "EMAIL",
-                subject = "Welcome",
-                body = "Hello",
-                scheduledAt = null,
-            ),
-        )
+        val result =
+            notificationService.create(
+                CreateNotificationCommand(
+                    memberId = 10,
+                    channel = "EMAIL",
+                    subject = "Welcome",
+                    body = "Hello",
+                    scheduledAt = null,
+                ),
+            )
 
         assertEquals(NotificationStatus.SENT, result.status)
         assertTrue(result.sentAt != null)
@@ -72,15 +74,16 @@ class NotificationServiceTest {
         }
 
         val futureTime = Instant.parse("2025-10-02T00:00:00Z")
-        val result = notificationService.create(
-            CreateNotificationCommand(
-                memberId = 11,
-                channel = "PUSH",
-                subject = "Reminder",
-                body = "Wait",
-                scheduledAt = futureTime,
-            ),
-        )
+        val result =
+            notificationService.create(
+                CreateNotificationCommand(
+                    memberId = 11,
+                    channel = "PUSH",
+                    subject = "Reminder",
+                    body = "Wait",
+                    scheduledAt = futureTime,
+                ),
+            )
 
         assertEquals(NotificationStatus.PENDING, result.status)
         verify { notificationEventPublisher wasNot Called }
@@ -88,13 +91,14 @@ class NotificationServiceTest {
 
     @Test
     fun `should mark notification as sent`() {
-        val notification = NotificationRequest(
-            memberId = 12,
-            channel = "SMS",
-            subject = "Code",
-            body = "1234",
-            scheduledAt = null,
-        )
+        val notification =
+            NotificationRequest(
+                memberId = 12,
+                channel = "SMS",
+                subject = "Code",
+                body = "1234",
+                scheduledAt = null,
+            )
         setId(notification, 700)
 
         given { notificationRequestRepository.findById(notification.id) } returns Optional.of(notification)
@@ -109,24 +113,26 @@ class NotificationServiceTest {
 
     @Test
     fun `should mark notification as failed`() {
-        val notification = NotificationRequest(
-            memberId = 13,
-            channel = "EMAIL",
-            subject = "Reset",
-            body = "Reset link",
-            scheduledAt = null,
-        )
+        val notification =
+            NotificationRequest(
+                memberId = 13,
+                channel = "EMAIL",
+                subject = "Reset",
+                body = "Reset link",
+                scheduledAt = null,
+            )
         setId(notification, 900)
 
         given { notificationRequestRepository.findById(notification.id) } returns Optional.of(notification)
         given { notificationRequestRepository.save(notification) } returns notification
 
-        val result = notificationService.markFailed(
-            MarkNotificationFailedCommand(
-                notificationId = 900,
-                reason = "smtp down",
-            ),
-        )
+        val result =
+            notificationService.markFailed(
+                MarkNotificationFailedCommand(
+                    notificationId = 900,
+                    reason = "smtp down",
+                ),
+            )
 
         assertEquals(NotificationStatus.FAILED, result.status)
         assertEquals("smtp down", result.failureReason)
@@ -134,13 +140,19 @@ class NotificationServiceTest {
         then { notificationEventPublisher.publish(900, 13, "EMAIL", "FAILED", capture(publishedAt)) }
     }
 
-    private fun setId(entity: NotificationRequest, value: Long) {
+    private fun setId(
+        entity: NotificationRequest,
+        value: Long,
+    ) {
         val field = entity.javaClass.superclass!!.getDeclaredField("id")
         field.isAccessible = true
         field.setLong(entity, value)
     }
 
-    private fun setIdIfRequired(entity: NotificationRequest, value: Long) {
+    private fun setIdIfRequired(
+        entity: NotificationRequest,
+        value: Long,
+    ) {
         if (entity.id == 0L) {
             setId(entity, value)
         }

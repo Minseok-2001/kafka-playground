@@ -1,8 +1,5 @@
 package minseok.kafkaplayground.waiting.application
 
-import java.time.Clock
-import java.time.Duration
-import java.time.Instant
 import minseok.kafkaplayground.waiting.application.command.AdmitWaitingTicketCommand
 import minseok.kafkaplayground.waiting.application.command.IssueWaitingTicketCommand
 import minseok.kafkaplayground.waiting.application.command.WaitingStatusQuery
@@ -12,6 +9,9 @@ import minseok.kafkaplayground.waiting.domain.WaitingTicketRepository
 import minseok.kafkaplayground.waiting.support.WaitingQueueStore
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Clock
+import java.time.Duration
+import java.time.Instant
 
 @Service
 class WaitingService(
@@ -26,11 +26,12 @@ class WaitingService(
     fun issueTicket(command: IssueWaitingTicketCommand): WaitingTicket {
         val now = Instant.now(clock)
         val activeStatuses = listOf(WaitingStatus.WAITING)
-        val existing = waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(
-            command.queueCode,
-            command.memberId,
-            activeStatuses,
-        )
+        val existing =
+            waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(
+                command.queueCode,
+                command.memberId,
+                activeStatuses,
+            )
 
         if (existing.isPresent) {
             val ticket = existing.get()
@@ -49,8 +50,10 @@ class WaitingService(
 
     @Transactional
     fun admitTicket(command: AdmitWaitingTicketCommand): WaitingTicket {
-        val ticket = waitingTicketRepository.findById(command.ticketId)
-            .orElseThrow { IllegalArgumentException("waiting ticket not found: ") }
+        val ticket =
+            waitingTicketRepository
+                .findById(command.ticketId)
+                .orElseThrow { IllegalArgumentException("waiting ticket not found: ") }
         ticket.markAdmitted()
         waitingQueueStore.remove(ticket.queueCode, ticket.id)
         val saved = waitingTicketRepository.save(ticket)
@@ -65,17 +68,20 @@ class WaitingService(
 
     @Transactional(readOnly = true)
     fun getStatus(query: WaitingStatusQuery): WaitingTicketStatus {
-        val ticket = waitingTicketRepository.findByQueueCodeAndMemberIdAndStatusIn(
-            query.queueCode,
-            query.memberId,
-            listOf(WaitingStatus.WAITING, WaitingStatus.ADMITTED),
-        ).orElseThrow { IllegalArgumentException("waiting ticket not found for member ") }
+        val ticket =
+            waitingTicketRepository
+                .findByQueueCodeAndMemberIdAndStatusIn(
+                    query.queueCode,
+                    query.memberId,
+                    listOf(WaitingStatus.WAITING, WaitingStatus.ADMITTED),
+                ).orElseThrow { IllegalArgumentException("waiting ticket not found for member ") }
 
-        val position = if (ticket.status == WaitingStatus.WAITING) {
-            waitingQueueStore.position(ticket.queueCode, ticket.id)
-        } else {
-            0
-        }
+        val position =
+            if (ticket.status == WaitingStatus.WAITING) {
+                waitingQueueStore.position(ticket.queueCode, ticket.id)
+            } else {
+                0
+            }
 
         return WaitingTicketStatus(
             ticketId = ticket.id,
@@ -87,16 +93,21 @@ class WaitingService(
         )
     }
 
-    private fun createNewTicket(command: IssueWaitingTicketCommand, now: Instant): WaitingTicket {
-        val lastSequence = waitingTicketRepository.findTopByQueueCodeOrderByIssuedSequenceDesc(command.queueCode)?.issuedSequence
-            ?: 0L
+    private fun createNewTicket(
+        command: IssueWaitingTicketCommand,
+        now: Instant,
+    ): WaitingTicket {
+        val lastSequence =
+            waitingTicketRepository.findTopByQueueCodeOrderByIssuedSequenceDesc(command.queueCode)?.issuedSequence
+                ?: 0L
         val nextSequence = lastSequence + 1
-        val ticket = WaitingTicket(
-            queueCode = command.queueCode,
-            memberId = command.memberId,
-            issuedSequence = nextSequence,
-            expiredAt = now.plus(ticketTtl),
-        )
+        val ticket =
+            WaitingTicket(
+                queueCode = command.queueCode,
+                memberId = command.memberId,
+                issuedSequence = nextSequence,
+                expiredAt = now.plus(ticketTtl),
+            )
         val saved = waitingTicketRepository.save(ticket)
         waitingQueueStore.enqueue(command.queueCode, saved.id, saved.issuedSequence)
         return saved

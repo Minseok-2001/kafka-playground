@@ -8,8 +8,8 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import java.time.Instant
 import minseok.kafkaplayground.common.BaseEntity
+import java.time.Instant
 
 @Entity
 @Table(name = "issued_coupon")

@@ -1,9 +1,8 @@
 package minseok.kafkaplayground.ticket.application
 
+import io.mockk.bdd.given
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.bdd.given
-import java.util.Optional
 import minseok.kafkaplayground.common.BaseEntity
 import minseok.kafkaplayground.common.event.PaymentTransactionEvent
 import minseok.kafkaplayground.ticket.domain.ReservationStatus
@@ -11,18 +10,19 @@ import minseok.kafkaplayground.ticket.domain.TicketReservation
 import minseok.kafkaplayground.ticket.domain.TicketReservationRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import java.util.Optional
 
 class PaymentEventHandlerTest {
-
     private val ticketReservationRepository = mockk<TicketReservationRepository>()
     private val handler = PaymentEventHandler(ticketReservationRepository)
 
     @Test
     fun `handle should confirm reservation when payment approved`() {
-        val reservation = TicketReservation(
-            memberId = 77L,
-            seatNumber = "B-12",
-        ).withId(501L)
+        val reservation =
+            TicketReservation(
+                memberId = 77L,
+                seatNumber = "B-12",
+            ).withId(501L)
         val savedSlot = slot<TicketReservation>()
 
         given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
@@ -42,10 +42,11 @@ class PaymentEventHandlerTest {
 
     @Test
     fun `handle should compensate reservation when payment compensated`() {
-        val reservation = TicketReservation(
-            memberId = 88L,
-            seatNumber = "C-3",
-        ).withId(777L)
+        val reservation =
+            TicketReservation(
+                memberId = 88L,
+                seatNumber = "C-3",
+            ).withId(777L)
         val savedSlot = slot<TicketReservation>()
 
         given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
@@ -65,10 +66,11 @@ class PaymentEventHandlerTest {
 
     @Test
     fun `handle should cancel reservation when payment rejected`() {
-        val reservation = TicketReservation(
-            memberId = 99L,
-            seatNumber = "D-4",
-        ).withId(888L)
+        val reservation =
+            TicketReservation(
+                memberId = 99L,
+                seatNumber = "D-4",
+            ).withId(888L)
         val savedSlot = slot<TicketReservation>()
 
         given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }
@@ -105,10 +107,11 @@ class PaymentEventHandlerTest {
 
     @Test
     fun `handle should not persist when status unsupported`() {
-        val reservation = TicketReservation(
-            memberId = 55L,
-            seatNumber = "E-5",
-        ).withId(999L)
+        val reservation =
+            TicketReservation(
+                memberId = 55L,
+                seatNumber = "E-5",
+            ).withId(999L)
         val savedSlot = slot<TicketReservation>()
 
         given { ticketReservationRepository.findById(reservation.id) } answers { Optional.of(reservation) }

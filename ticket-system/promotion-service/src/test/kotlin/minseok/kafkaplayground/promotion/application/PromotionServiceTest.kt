@@ -7,13 +7,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import java.math.BigDecimal
-import java.time.Clock
-import java.time.Instant
-import java.time.ZoneOffset
-import java.util.Optional
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import minseok.kafkaplayground.promotion.application.command.CreateCouponPolicyCommand
 import minseok.kafkaplayground.promotion.application.command.IssueCouponCommand
 import minseok.kafkaplayground.promotion.application.command.RedeemCouponCommand
@@ -25,6 +18,13 @@ import minseok.kafkaplayground.promotion.domain.IssuedCoupon
 import minseok.kafkaplayground.promotion.domain.IssuedCouponRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneOffset
+import java.util.Optional
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class PromotionServiceTest {
     private val couponPolicyRepository = mockk<CouponPolicyRepository>()
@@ -35,36 +35,39 @@ class PromotionServiceTest {
 
     @BeforeEach
     fun setUp() {
-        promotionService = PromotionService(
-            couponPolicyRepository,
-            issuedCouponRepository,
-            couponEventPublisher,
-            clock,
-        )
+        promotionService =
+            PromotionService(
+                couponPolicyRepository,
+                issuedCouponRepository,
+                couponEventPublisher,
+                clock,
+            )
     }
 
     @Test
     fun `should create coupon policy`() {
-        val command = CreateCouponPolicyCommand(
-            code = "WELCOME10",
-            name = "Welcome coupon",
-            benefitType = BenefitType.AMOUNT,
-            benefitValue = BigDecimal.TEN,
-            minimumAmount = BigDecimal.valueOf(50),
-            validFrom = Instant.parse("2025-09-30T00:00:00Z"),
-            validUntil = Instant.parse("2025-10-30T00:00:00Z"),
-            totalQuantity = 100,
-        )
-        val policy = CouponPolicy(
-            code = command.code,
-            name = command.name,
-            benefitType = command.benefitType,
-            benefitValue = command.benefitValue,
-            minimumAmount = command.minimumAmount,
-            validFrom = command.validFrom,
-            validUntil = command.validUntil,
-            totalQuantity = command.totalQuantity,
-        )
+        val command =
+            CreateCouponPolicyCommand(
+                code = "WELCOME10",
+                name = "Welcome coupon",
+                benefitType = BenefitType.AMOUNT,
+                benefitValue = BigDecimal.TEN,
+                minimumAmount = BigDecimal.valueOf(50),
+                validFrom = Instant.parse("2025-09-30T00:00:00Z"),
+                validUntil = Instant.parse("2025-10-30T00:00:00Z"),
+                totalQuantity = 100,
+            )
+        val policy =
+            CouponPolicy(
+                code = command.code,
+                name = command.name,
+                benefitType = command.benefitType,
+                benefitValue = command.benefitValue,
+                minimumAmount = command.minimumAmount,
+                validFrom = command.validFrom,
+                validUntil = command.validUntil,
+                totalQuantity = command.totalQuantity,
+            )
         setId(policy, 10)
 
         val savedPolicy = slot<CouponPolicy>()
@@ -79,26 +82,28 @@ class PromotionServiceTest {
 
     @Test
     fun `should prevent duplicated coupon code`() {
-        val command = CreateCouponPolicyCommand(
-            code = "WELCOME10",
-            name = "dup",
-            benefitType = BenefitType.AMOUNT,
-            benefitValue = BigDecimal.TEN,
-            minimumAmount = null,
-            validFrom = Instant.now(clock),
-            validUntil = Instant.now(clock).plusSeconds(3600),
-            totalQuantity = null,
-        )
-        val existing = CouponPolicy(
-            code = command.code,
-            name = command.name,
-            benefitType = command.benefitType,
-            benefitValue = command.benefitValue,
-            minimumAmount = command.minimumAmount,
-            validFrom = command.validFrom,
-            validUntil = command.validUntil,
-            totalQuantity = command.totalQuantity,
-        )
+        val command =
+            CreateCouponPolicyCommand(
+                code = "WELCOME10",
+                name = "dup",
+                benefitType = BenefitType.AMOUNT,
+                benefitValue = BigDecimal.TEN,
+                minimumAmount = null,
+                validFrom = Instant.now(clock),
+                validUntil = Instant.now(clock).plusSeconds(3600),
+                totalQuantity = null,
+            )
+        val existing =
+            CouponPolicy(
+                code = command.code,
+                name = command.name,
+                benefitType = command.benefitType,
+                benefitValue = command.benefitValue,
+                minimumAmount = command.minimumAmount,
+                validFrom = command.validFrom,
+                validUntil = command.validUntil,
+                totalQuantity = command.totalQuantity,
+            )
         setId(existing, 1)
 
         given { couponPolicyRepository.findByCode(command.code) } returns Optional.of(existing)
@@ -111,23 +116,25 @@ class PromotionServiceTest {
 
     @Test
     fun `should issue coupon and publish event`() {
-        val policy = CouponPolicy(
-            code = "WELCOME10",
-            name = "Welcome",
-            benefitType = BenefitType.AMOUNT,
-            benefitValue = BigDecimal.TEN,
-            minimumAmount = null,
-            validFrom = Instant.parse("2025-09-30T00:00:00Z"),
-            validUntil = Instant.parse("2025-11-01T00:00:00Z"),
-            totalQuantity = 2,
-        )
+        val policy =
+            CouponPolicy(
+                code = "WELCOME10",
+                name = "Welcome",
+                benefitType = BenefitType.AMOUNT,
+                benefitValue = BigDecimal.TEN,
+                minimumAmount = null,
+                validFrom = Instant.parse("2025-09-30T00:00:00Z"),
+                validUntil = Instant.parse("2025-11-01T00:00:00Z"),
+                totalQuantity = 2,
+            )
         setId(policy, 5)
         val command = IssueCouponCommand(policyId = policy.id, memberId = 55)
-        val savedCoupon = IssuedCoupon(
-            policy = policy,
-            memberId = command.memberId,
-            expiresAt = policy.validUntil,
-        )
+        val savedCoupon =
+            IssuedCoupon(
+                policy = policy,
+                memberId = command.memberId,
+                expiresAt = policy.validUntil,
+            )
         setId(savedCoupon, 99)
 
         val issuedSlot = slot<IssuedCoupon>()
@@ -146,22 +153,24 @@ class PromotionServiceTest {
 
     @Test
     fun `should redeem coupon and emit event`() {
-        val policy = CouponPolicy(
-            code = "WELCOME10",
-            name = "Welcome",
-            benefitType = BenefitType.AMOUNT,
-            benefitValue = BigDecimal.TEN,
-            minimumAmount = null,
-            validFrom = Instant.parse("2025-09-30T00:00:00Z"),
-            validUntil = Instant.parse("2025-11-01T00:00:00Z"),
-            totalQuantity = 10,
-        )
+        val policy =
+            CouponPolicy(
+                code = "WELCOME10",
+                name = "Welcome",
+                benefitType = BenefitType.AMOUNT,
+                benefitValue = BigDecimal.TEN,
+                minimumAmount = null,
+                validFrom = Instant.parse("2025-09-30T00:00:00Z"),
+                validUntil = Instant.parse("2025-11-01T00:00:00Z"),
+                totalQuantity = 10,
+            )
         setId(policy, 5)
-        val coupon = IssuedCoupon(
-            policy = policy,
-            memberId = 99,
-            expiresAt = policy.validUntil,
-        )
+        val coupon =
+            IssuedCoupon(
+                policy = policy,
+                memberId = 99,
+                expiresAt = policy.validUntil,
+            )
         setId(coupon, 501)
 
         given { issuedCouponRepository.findById(coupon.id) } returns Optional.of(coupon)
@@ -174,7 +183,10 @@ class PromotionServiceTest {
         then { couponEventPublisher.publish(501, 5, 99, "REDEEMED", capture(publishedAt)) }
     }
 
-    private fun setId(entity: Any, value: Long) {
+    private fun setId(
+        entity: Any,
+        value: Long,
+    ) {
         val field = entity.javaClass.superclass!!.getDeclaredField("id")
         field.isAccessible = true
         field.setLong(entity, value)

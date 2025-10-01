@@ -1,7 +1,7 @@
 package minseok.kafkaplayground.common.event
 
-import java.time.Instant
 import minseok.kafkaplayground.common.support.TsidFactoryProvider
+import java.time.Instant
 
 abstract class DomainEvent(
     val id: Long = TsidFactoryProvider.nextLong(),

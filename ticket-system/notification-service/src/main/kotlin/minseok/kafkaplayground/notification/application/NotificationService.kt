@@ -1,7 +1,5 @@
 package minseok.kafkaplayground.notification.application
 
-import java.time.Clock
-import java.time.Instant
 import minseok.kafkaplayground.notification.application.command.CreateNotificationCommand
 import minseok.kafkaplayground.notification.application.command.MarkNotificationFailedCommand
 import minseok.kafkaplayground.notification.application.command.MarkNotificationSentCommand
@@ -10,6 +8,8 @@ import minseok.kafkaplayground.notification.domain.NotificationRequestRepository
 import minseok.kafkaplayground.notification.domain.NotificationStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Clock
+import java.time.Instant
 
 @Service
 class NotificationService(
@@ -20,13 +20,14 @@ class NotificationService(
     @Transactional
     fun create(command: CreateNotificationCommand): NotificationRequest {
         val now = Instant.now(clock)
-        val notification = NotificationRequest(
-            memberId = command.memberId,
-            channel = command.channel,
-            subject = command.subject,
-            body = command.body,
-            scheduledAt = command.scheduledAt,
-        )
+        val notification =
+            NotificationRequest(
+                memberId = command.memberId,
+                channel = command.channel,
+                subject = command.subject,
+                body = command.body,
+                scheduledAt = command.scheduledAt,
+            )
         val saved = notificationRequestRepository.save(notification)
         val shouldDispatch = command.scheduledAt?.isBefore(now) != false
         if (shouldDispatch) {
@@ -60,11 +61,12 @@ class NotificationService(
     }
 
     @Transactional(readOnly = true)
-    fun get(notificationId: Long): NotificationRequest {
-        return load(notificationId)
-    }
+    fun get(notificationId: Long): NotificationRequest = load(notificationId)
 
-    private fun dispatch(notification: NotificationRequest, sendTime: Instant) {
+    private fun dispatch(
+        notification: NotificationRequest,
+        sendTime: Instant,
+    ) {
         notification.markSent(sendTime)
         notificationRequestRepository.save(notification)
         notificationEventPublisher.publish(
@@ -76,8 +78,8 @@ class NotificationService(
         )
     }
 
-    private fun load(notificationId: Long): NotificationRequest {
-        return notificationRequestRepository.findById(notificationId)
+    private fun load(notificationId: Long): NotificationRequest =
+        notificationRequestRepository
+            .findById(notificationId)
             .orElseThrow { IllegalArgumentException("notification not found: ") }
-    }
 }

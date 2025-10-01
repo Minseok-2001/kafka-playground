@@ -24,19 +24,24 @@ class PaymentController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun requestPayment(@Valid @RequestBody request: PaymentRequest): PaymentResponse {
-        val transaction = paymentService.requestPayment(
-            RequestPaymentCommand(
-                reservationId = request.reservationId,
-                amount = request.amount,
-            ),
-        )
+    fun requestPayment(
+        @Valid @RequestBody request: PaymentRequest,
+    ): PaymentResponse {
+        val transaction =
+            paymentService.requestPayment(
+                RequestPaymentCommand(
+                    reservationId = request.reservationId,
+                    amount = request.amount,
+                ),
+            )
         return transaction.toResponse()
     }
 
     @PostMapping("/{transactionId}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun approve(@PathVariable transactionId: Long) {
+    fun approve(
+        @PathVariable transactionId: Long,
+    ) {
         paymentService.markApproved(transactionId)
     }
 

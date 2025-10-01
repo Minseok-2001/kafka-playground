@@ -29,17 +29,20 @@ class PromotionController(
 ) {
     @PostMapping("/policies")
     @ResponseStatus(HttpStatus.CREATED)
-    fun createPolicy(@Valid @RequestBody request: CreateCouponPolicyRequest): CouponPolicyResponse {
-        val command = CreateCouponPolicyCommand(
-            code = request.code,
-            name = request.name,
-            benefitType = BenefitType.valueOf(request.benefitType.uppercase()),
-            benefitValue = request.benefitValue,
-            minimumAmount = request.minimumAmount,
-            validFrom = request.validFrom,
-            validUntil = request.validUntil,
-            totalQuantity = request.totalQuantity,
-        )
+    fun createPolicy(
+        @Valid @RequestBody request: CreateCouponPolicyRequest,
+    ): CouponPolicyResponse {
+        val command =
+            CreateCouponPolicyCommand(
+                code = request.code,
+                name = request.name,
+                benefitType = BenefitType.valueOf(request.benefitType.uppercase()),
+                benefitValue = request.benefitValue,
+                minimumAmount = request.minimumAmount,
+                validFrom = request.validFrom,
+                validUntil = request.validUntil,
+                totalQuantity = request.totalQuantity,
+            )
         return promotionService.createPolicy(command).toResponse()
     }
 
@@ -49,21 +52,24 @@ class PromotionController(
         @PathVariable policyId: Long,
         @Valid @RequestBody request: IssueCouponRequest,
     ): IssuedCouponResponse {
-        val command = IssueCouponCommand(
-            policyId = policyId,
-            memberId = request.memberId,
-        )
+        val command =
+            IssueCouponCommand(
+                policyId = policyId,
+                memberId = request.memberId,
+            )
         return promotionService.issueCoupon(command).toResponse()
     }
 
     @PostMapping("/coupons/{couponId}/redeem")
-    fun redeemCoupon(@PathVariable couponId: Long): IssuedCouponResponse {
+    fun redeemCoupon(
+        @PathVariable couponId: Long,
+    ): IssuedCouponResponse {
         val command = RedeemCouponCommand(couponId = couponId)
         return promotionService.redeemCoupon(command).toResponse()
     }
 
     @GetMapping("/coupons/{couponId}")
-    fun getCoupon(@PathVariable couponId: Long): IssuedCouponResponse {
-        return promotionService.findCoupon(couponId).toResponse()
-    }
+    fun getCoupon(
+        @PathVariable couponId: Long,
+    ): IssuedCouponResponse = promotionService.findCoupon(couponId).toResponse()
 }

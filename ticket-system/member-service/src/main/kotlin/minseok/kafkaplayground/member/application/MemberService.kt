@@ -17,7 +17,7 @@ class MemberService(
     @Transactional
     fun register(command: RegisterMemberCommand): MemberAccount {
         memberAccountRepository.findByEmail(command.email).ifPresent {
-            throw IllegalArgumentException("email already in use: ")
+            throw IllegalArgumentException("email already in use: ${command.email}")
         }
 
         val member =
@@ -61,5 +61,5 @@ class MemberService(
 
     private fun loadMember(memberId: Long): MemberAccount = memberAccountRepository
         .findById(memberId)
-        .orElseThrow { IllegalArgumentException("member not found: ") }
+        .orElseThrow { IllegalArgumentException("member not found: $memberId") }
 }

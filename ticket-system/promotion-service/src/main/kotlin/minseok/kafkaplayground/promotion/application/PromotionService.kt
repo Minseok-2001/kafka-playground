@@ -10,7 +10,6 @@ import minseok.kafkaplayground.promotion.domain.IssuedCoupon
 import minseok.kafkaplayground.promotion.domain.IssuedCouponRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Clock
 import java.time.Instant
 
 @Service
@@ -18,12 +17,11 @@ class PromotionService(
     private val couponPolicyRepository: CouponPolicyRepository,
     private val issuedCouponRepository: IssuedCouponRepository,
     private val couponEventPublisher: CouponEventPublisher,
-    private val clock: Clock,
 ) {
     @Transactional
     fun createPolicy(command: CreateCouponPolicyCommand): CouponPolicy {
         couponPolicyRepository.findByCode(command.code).ifPresent {
-            throw IllegalArgumentException("duplicate coupon code: ")
+            throw IllegalArgumentException("duplicate coupon code: ${command.code}")
         }
         val policy =
             CouponPolicy(
@@ -44,10 +42,10 @@ class PromotionService(
         val policy =
             couponPolicyRepository
                 .findById(command.policyId)
-                .orElseThrow { IllegalArgumentException("coupon policy not found: ") }
-        val now = Instant.now(clock)
+                .orElseThrow { IllegalArgumentException("coupon policy not found: ${command.policyId}") }
+        val now = Instant.now()
         if (!policy.canIssue(now)) {
-            throw IllegalStateException("coupon policy unavailable for issue: ")
+            throw IllegalStateException("coupon policy unavailable for issue: ${command.policyId}")
         }
         val existing = issuedCouponRepository.findByPolicyIdAndMemberId(policy.id, command.memberId)
         if (existing.isPresent && existing.get().status == CouponStatus.AVAILABLE) {
@@ -77,8 +75,8 @@ class PromotionService(
         val coupon =
             issuedCouponRepository
                 .findById(command.couponId)
-                .orElseThrow { IllegalArgumentException("issued coupon not found: ") }
-        val now = Instant.now(clock)
+                .orElseThrow { IllegalArgumentException("issued coupon not found: ${command.couponId}") }
+        val now = Instant.now()
         coupon.redeem(now)
         val saved = issuedCouponRepository.save(coupon)
         couponEventPublisher.publish(
@@ -94,5 +92,5 @@ class PromotionService(
     @Transactional(readOnly = true)
     fun findCoupon(couponId: Long): IssuedCoupon = issuedCouponRepository
         .findById(couponId)
-        .orElseThrow { IllegalArgumentException("issued coupon not found: ") }
+        .orElseThrow { IllegalArgumentException("issued coupon not found: $couponId") }
 }

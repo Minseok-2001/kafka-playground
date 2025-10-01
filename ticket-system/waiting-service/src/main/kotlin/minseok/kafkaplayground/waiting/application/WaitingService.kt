@@ -53,7 +53,7 @@ class WaitingService(
         val ticket =
             waitingTicketRepository
                 .findById(command.ticketId)
-                .orElseThrow { IllegalArgumentException("waiting ticket not found: ") }
+                .orElseThrow { IllegalArgumentException("waiting ticket not found: ${command.ticketId}") }
         ticket.markAdmitted()
         waitingQueueStore.remove(ticket.queueCode, ticket.id)
         val saved = waitingTicketRepository.save(ticket)
@@ -74,7 +74,8 @@ class WaitingService(
                     query.queueCode,
                     query.memberId,
                     listOf(WaitingStatus.WAITING, WaitingStatus.ADMITTED),
-                ).orElseThrow { IllegalArgumentException("waiting ticket not found for member ") }
+                )
+                .orElseThrow { IllegalArgumentException("waiting ticket not found for member ${query.memberId}") }
 
         val position =
             if (ticket.status == WaitingStatus.WAITING) {

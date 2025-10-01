@@ -8,18 +8,16 @@ import minseok.kafkaplayground.notification.domain.NotificationRequestRepository
 import minseok.kafkaplayground.notification.domain.NotificationStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Clock
 import java.time.Instant
 
 @Service
 class NotificationService(
     private val notificationRequestRepository: NotificationRequestRepository,
     private val notificationEventPublisher: NotificationEventPublisher,
-    private val clock: Clock,
 ) {
     @Transactional
     fun create(command: CreateNotificationCommand): NotificationRequest {
-        val now = Instant.now(clock)
+        val now = Instant.now()
         val notification =
             NotificationRequest(
                 memberId = command.memberId,
@@ -39,7 +37,7 @@ class NotificationService(
     @Transactional
     fun markSent(command: MarkNotificationSentCommand): NotificationRequest {
         val notification = load(command.notificationId)
-        val now = Instant.now(clock)
+        val now = Instant.now()
         dispatch(notification, now)
         return notification
     }
@@ -47,7 +45,7 @@ class NotificationService(
     @Transactional
     fun markFailed(command: MarkNotificationFailedCommand): NotificationRequest {
         val notification = load(command.notificationId)
-        val now = Instant.now(clock)
+        val now = Instant.now()
         notification.markFailed(command.reason, now)
         notificationRequestRepository.save(notification)
         notificationEventPublisher.publish(
@@ -80,5 +78,5 @@ class NotificationService(
 
     private fun load(notificationId: Long): NotificationRequest = notificationRequestRepository
         .findById(notificationId)
-        .orElseThrow { IllegalArgumentException("notification not found: ") }
+        .orElseThrow { IllegalArgumentException("notification not found: $notificationId") }
 }

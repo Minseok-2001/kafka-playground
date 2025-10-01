@@ -5,9 +5,9 @@ spring:
   application:
     name: waiting-service
   datasource:
-    url: 
-    username: 
-    password: 
+    url: ${WAITING_DB_URL:jdbc:mysql://waiting-db:3306/waiting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${WAITING_DB_USERNAME:waiting}
+    password: ${WAITING_DB_PASSWORD:waiting}
   jpa:
     open-in-view: false
     hibernate:
@@ -16,16 +16,16 @@ spring:
       hibernate:
         format_sql: true
   kafka:
-    bootstrap-servers: 
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     consumer:
       group-id: waiting-service
     producer:
       client-id: waiting-service
   data:
     redis:
-      host: 
-      port: 
-      database: 
+      host: ${WAITING_REDIS_HOST:waiting-redis}
+      port: ${WAITING_REDIS_PORT:6379}
+      database: ${WAITING_REDIS_DATABASE:0}
 
 logging:
   level:

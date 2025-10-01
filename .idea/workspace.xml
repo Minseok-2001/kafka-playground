@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts">
+    <list default="true" id="1ca1858d-aedb-4cb8-af11-c67818cbcfbb" name="Changes" comment="lint: update workspace.xml to reflect ktlint application changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -130,7 +130,6 @@
     "Spring Boot.PaymentServiceApplication.executor": "Run",
     "Spring Boot.QueueServiceApplication.executor": "Run",
     "Spring Boot.TicketServiceApplication.executor": "Run",
-    "android.gradle.sync.needed": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/zxcva/Documents/GitHub/kafka-playground/ticket-system",
@@ -233,35 +232,35 @@
       </method>
     </configuration>
     <configuration name="MemberServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.member-service.main" />
+      <module name="member-service.kafka-playground.member-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.member.MemberServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.notification-service.main" />
+      <module name="notification-service.kafka-playground.notification-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.notification.NotificationServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="PaymentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.payment-service.main" />
+      <module name="payment-service.kafka-playground.payment-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.payment.PaymentServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="PromotionServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.promotion-service.main" />
+      <module name="promotion-service.kafka-playground.promotion-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.promotion.PromotionServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="QueueServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.queue-service.main" />
+      <module name="queue-service.kafka-playground.queue-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.queue.QueueServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -275,7 +274,7 @@
       </method>
     </configuration>
     <configuration name="WaitingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="kafka-playground.waiting-service.main" />
+      <module name="waiting-service.kafka-playground.waiting-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="minseok.kafkaplayground.waiting.WaitingServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -322,7 +321,7 @@
       <workItem from="1759214465122" duration="8030000" />
       <workItem from="1759229917964" duration="4629000" />
       <workItem from="1759296808136" duration="393000" />
-      <workItem from="1759297226113" duration="254000" />
+      <workItem from="1759297226113" duration="2709000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initialize kafka playground project with Gradle, Spring Boot, and Testcontainers">
       <option name="closed" value="true" />
@@ -484,7 +483,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759297474493</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="lint: update workspace.xml to reflect ktlint application changes">
+      <option name="closed" value="true" />
+      <created>1759297491953</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1759297491953</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -511,7 +518,8 @@
     <MESSAGE value="feat: add notification service with Kafka integration and coupon policy management" />
     <MESSAGE value="lint: apply ktlint" />
     <MESSAGE value="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add .editorconfig for ktlint configuration and apply ktlint plugin in build.gradle.kts" />
+    <MESSAGE value="lint: update workspace.xml to reflect ktlint application changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="lint: update workspace.xml to reflect ktlint application changes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
